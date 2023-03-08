@@ -1,0 +1,18 @@
+.header {
+  border: 2px solid #F9A3A5;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .userName {
+    font-size: 24px;
+    padding: 20px;
+  }
+}

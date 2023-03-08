@@ -1,0 +1,15 @@
+.button {
+  padding: 10px 40px;
+  font-size: 18px;
+  background-color: transparent;
+  border: 2px solid #9A6FC1;
+  transition: all 0.3s;
+  height: 45px;
+  font-family: inherit;
+
+
+  &:hover {
+    background-color: #9A6FC1;
+    color: white;
+  }
+}

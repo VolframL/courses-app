@@ -1,0 +1,78 @@
+.root {
+  border: 2px solid #BAD6E9;
+  padding: 30px;
+  margin-bottom: 30px;
+
+
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 30px;
+}
+
+.input {
+  width: 300px;
+}
+
+.description {
+  margin-bottom: 30px;
+}
+
+.main {
+  border: 2px solid #2D2D2D;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 3fr 2fr;
+  gap: 30px;
+  padding: 30px;
+
+  b {
+    margin-bottom: 30px;
+  }
+
+  input {
+    margin-bottom: 30px;
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    margin-bottom: 15px;
+  }
+}
+
+.add_new_author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.author_list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  ul {
+    width: 60%;
+  }
+}
+
+.duration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .time {
+    font-size: 30px;
+    align-self: flex-start;
+
+    b {
+      font-size: 36px;
+    }
+  }
+}
