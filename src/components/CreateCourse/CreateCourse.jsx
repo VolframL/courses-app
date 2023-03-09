@@ -2,7 +2,7 @@ import Button from 'common/Button/Button';
 import Input from 'common/Input/Input';
 import Textarea from 'common/Textarea/Textarea';
 
-import { mockedAuthorsList } from 'constants';
+import { pipeDuration } from 'helpers/pipeDuration';
 
 import { useState } from 'react';
 
@@ -10,33 +10,143 @@ import { v4 as uuid } from 'uuid';
 
 import styles from './CreateCourse.module.scss';
 
-const CreateCourse = () => {
+const CreateCourse = ({ onSetPage, mockedAuthorsList, mockedCoursesList }) => {
+	const [courseAuthorList, setCourseAuthorList] = useState([]);
+	const [requiredAuthorList, setRequiredAuthorList] = useState(false);
+	const [authorList, setAuthorList] = useState(mockedAuthorsList);
+	const [title, setTitle] = useState('');
+	const [errorTitle, setErrorTitle] = useState(false);
 	const [newAuthorName, setNewAuthorName] = useState('');
+	const [errorAuthorName, setErrorAuthorName] = useState(false);
+	const [description, setDescription] = useState('');
+	const [errorDescription, setErrorDescription] = useState(false);
+	const [duration, setDuration] = useState('');
+	const [durationText, setDurationText] = useState('');
+	const [errorDuration, setErrorDuration] = useState(false);
 
-	const onAddNewAuthor = (newAuthorName) => {
-		const newAuthor = {
-			name: newAuthorName,
-			id: uuid(),
-		};
+	const onInputTitle = (e) => {
+		const { value } = e.target;
+		setTitle(value);
+		validateMinLength(value, 'Title', setErrorTitle);
+	};
 
-		setNewAuthorName('');
+	const onInputAuthorName = (e) => {
+		const { value } = e.target;
+		setNewAuthorName(value);
+		validateMinLength(value, 'Author name', setErrorAuthorName);
+	};
 
-		mockedAuthorsList[5] = newAuthor;
+	const onInputDescription = (e) => {
+		const { value } = e.target;
+		setDescription(value);
+		validateMinLength(value, 'Description', setErrorDescription);
+	};
+
+	const onInputDuration = (e) => {
+		const { value } = e.target;
+		if (/\D/.test(value)) {
+			setErrorDuration('It should only be numbers.');
+		} else if (value.charAt(0) === '0') {
+			setErrorDuration('The first digit cannot be 0.');
+			setDuration('');
+		} else {
+			setErrorDuration('');
+			setDuration(value);
+			setDurationText(pipeDuration(value));
+		}
+	};
+
+	const validateMinLength = (value, label, setErrFunc) => {
+		if (value.trim().length < 2) {
+			setErrFunc(`${label} length should be at least 2 characters`);
+		} else {
+			setErrFunc(false);
+		}
+	};
+
+	const onCreateAuthor = (newAuthorName) => {
+		validateMinLength(newAuthorName, 'Author name', setErrorAuthorName);
+
+		if (newAuthorName) {
+			const newAuthor = {
+				name: newAuthorName,
+				id: uuid(),
+			};
+
+			setNewAuthorName('');
+			setAuthorList([...authorList, newAuthor]);
+			mockedAuthorsList.push(newAuthor);
+		}
+	};
+
+	const onAddAuthor = (obj) => {
+		setRequiredAuthorList(false);
+		setCourseAuthorList([...courseAuthorList, obj]);
+		setAuthorList(authorList.filter((item) => item.id !== obj.id));
+	};
+
+	const onDeleteAuthor = (obj) => {
+		setAuthorList([...authorList, obj]);
+		setCourseAuthorList(courseAuthorList.filter((item) => item.id !== obj.id));
+	};
+
+	const onSubmit = () => {
+		if (!courseAuthorList.length) {
+			setRequiredAuthorList(true);
+		}
+		if (!title) {
+			setErrorTitle('Title cannot be empty');
+		}
+		if (!description) {
+			setErrorDescription('Description cannot be empty');
+		}
+		if (!duration) {
+			setErrorDuration('Duration cannot be empty');
+		}
+		if (duration <= 0) {
+			setErrorDuration('Duration must be more than 0 minute');
+		}
+
+		if (courseAuthorList.length && title && description && duration > 0) {
+			const newCourse = {
+				id: uuid(),
+				title,
+				description,
+				creationDate: new Date().toLocaleDateString('en-US'),
+				duration,
+				authors: courseAuthorList.map((obj) => obj.id),
+			};
+
+			mockedCoursesList.push(newCourse);
+			onSetPage('courses');
+		} else {
+			alert('Please, fill in all fields');
+		}
 	};
 
 	return (
 		<div className={styles.root}>
 			<div className={styles.header}>
 				<div className={styles.input}>
-					<Input labelText='Title' placeholderText='Enter title' />
+					<Input
+						labelText='Title'
+						placeholderText='Enter title'
+						onChange={onInputTitle}
+						value={title}
+						error={errorTitle}
+						name='title'
+					/>
 				</div>
-				<Button buttonText='Create course' />
+				<Button onClick={onSubmit} buttonText='Create course' />
 			</div>
 			<div className={styles.description}>
 				<Textarea
+					value={description}
 					name='description'
 					placeholderText='Enter description'
 					labelText='Description'
+					error={errorDescription}
+					onChange={onInputDescription}
 				/>
 			</div>
 			<div className={styles.main}>
@@ -44,26 +154,33 @@ const CreateCourse = () => {
 					<b>Add author</b>
 					<Input
 						value={newAuthorName}
-						onChange={setNewAuthorName}
+						onChange={onInputAuthorName}
 						labelText='Author name'
 						placeholderText='Enter author name'
+						error={errorAuthorName}
 					/>
 					<Button
-						onClick={() => onAddNewAuthor(newAuthorName)}
+						disabled={errorAuthorName}
+						onClick={() => onCreateAuthor(newAuthorName)}
 						buttonText='Create author'
 					/>
 				</div>
 				<div className={styles.author_list}>
 					<b>Authors</b>
 					<ul>
-						{mockedAuthorsList.map((obj) => {
-							return (
-								<li key={obj.id}>
-									<div>{obj.name}</div>
-									<Button buttonText='Add author' />
-								</li>
-							);
-						})}
+						{authorList.length
+							? authorList.map((obj) => {
+									return (
+										<li key={obj.id}>
+											<div>{obj.name}</div>
+											<Button
+												buttonText='Add author'
+												onClick={() => onAddAuthor(obj)}
+											/>
+										</li>
+									);
+							  })
+							: 'Authors list is empty'}
 					</ul>
 				</div>
 				<div className={styles.duration}>
@@ -71,23 +188,34 @@ const CreateCourse = () => {
 					<Input
 						placeholderText='Enter duration in minutes'
 						labelText='Duration'
+						onChange={onInputDuration}
+						value={duration}
+						error={errorDuration}
+						name='duration'
 					/>
 					<div className={styles.time}>
-						Duration: <b>00:00</b> hours
+						Duration: <b>{durationText || '00:00'}</b> hours
 					</div>
 				</div>
 				<div className={styles.author_list}>
 					<b>Course authors</b>
-					Authors list is empty
+					<div className={styles.error}>
+						{requiredAuthorList && 'Author list cannot be empty'}
+					</div>
 					<ul>
-						<li>
-							<div>Nicolas Kim</div>
-							<Button buttonText='Delete author' />
-						</li>
-						<li>
-							<div>Vasilii Dobkin</div>
-							<Button buttonText='Delete author' />
-						</li>
+						{courseAuthorList.length
+							? courseAuthorList.map((obj) => {
+									return (
+										<li key={obj.id}>
+											<div>{obj.name}</div>
+											<Button
+												buttonText='Delete author'
+												onClick={() => onDeleteAuthor(obj)}
+											/>
+										</li>
+									);
+							  })
+							: 'Authors list is empty'}
 					</ul>
 				</div>
 			</div>

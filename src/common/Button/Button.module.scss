@@ -7,9 +7,12 @@
   height: 45px;
   font-family: inherit;
 
-
   &:hover {
     background-color: #9A6FC1;
     color: white;
+
+    &:disabled {
+      background-color: red;
+    }
   }
 }

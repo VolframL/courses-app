@@ -1,6 +1,8 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+  margin-bottom: 30px;
+
 }
 
 .textarea {
@@ -9,4 +11,9 @@
   padding: 10px;
   font-size: 18px;
   font-family: inherit;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
 }

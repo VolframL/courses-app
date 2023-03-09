@@ -17,10 +17,6 @@
   width: 300px;
 }
 
-.description {
-  margin-bottom: 30px;
-}
-
 .main {
   border: 2px solid #2D2D2D;
   display: grid;
@@ -75,4 +71,8 @@
       font-size: 36px;
     }
   }
+}
+
+.error {
+  color: red;
 }

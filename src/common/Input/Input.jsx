@@ -7,7 +7,7 @@ const Input = ({
 	onChange = () => {},
 	value,
 	type = 'text',
-	required = true,
+	error = '',
 }) => {
 	return (
 		<div className={styles.wrapper}>
@@ -16,11 +16,11 @@ const Input = ({
 				className={styles.input}
 				name={name}
 				value={value}
-				onChange={(e) => onChange(e.target.value)}
+				onChange={onChange}
 				placeholder={placeholderText}
 				type={type}
-				required={required}
 			/>
+			<div className={styles.error}>{error}</div>
 		</div>
 	);
 };

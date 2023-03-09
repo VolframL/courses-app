@@ -23,7 +23,7 @@ const CourseCard = ({
 				</div>
 				<div>
 					<b>Duration: </b>
-					{pipeDuration(duration)}
+					{pipeDuration(duration)} hours
 				</div>
 				<div>
 					<b>Created: </b>

@@ -2,10 +2,9 @@ import Button from 'common/Button/Button';
 import SearchBar from './components/SearchBar/SearchBar';
 import CourceCard from './components/CourseCard/CourseCard';
 import styles from './Courses.module.scss';
-import { mockedCoursesList } from 'constants';
 import { useState, useEffect } from 'react';
 
-const Courses = ({ onSetPageAddCourse }) => {
+const Courses = ({ onSetPage, mockedCoursesList }) => {
 	const [searchText, setSearchText] = useState('');
 	const [coursesList, setCoursesList] = useState(mockedCoursesList);
 
@@ -21,6 +20,7 @@ const Courses = ({ onSetPageAddCourse }) => {
 		if (searchText === '') {
 			setCoursesList(mockedCoursesList);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [searchText]);
 
 	return (
@@ -31,7 +31,10 @@ const Courses = ({ onSetPageAddCourse }) => {
 					setSearchText={setSearchText}
 					searchText={searchText}
 				/>
-				<Button onClick={onSetPageAddCourse} buttonText='Add new course' />
+				<Button
+					onClick={() => onSetPage('addCouse')}
+					buttonText='Add new course'
+				/>
 			</div>
 			{coursesList.map((course) => (
 				<CourceCard key={course.id} course={course} />

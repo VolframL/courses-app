@@ -9,6 +9,7 @@ const Textarea = ({
 	cols = 1,
 	rows = 4,
 	required = true,
+	error = '',
 }) => {
 	return (
 		<div className={styles.wrapper}>
@@ -17,12 +18,13 @@ const Textarea = ({
 				className={styles.textarea}
 				name={name}
 				value={value}
-				onChange={(e) => onChange(e.target.value)}
+				onChange={onChange}
 				placeholder={placeholderText}
 				cols={cols}
 				rows={rows}
 				required={required}
 			/>
+			<div className={styles.error}>{error}</div>
 		</div>
 	);
 };

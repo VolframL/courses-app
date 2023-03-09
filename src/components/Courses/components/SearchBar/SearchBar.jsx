@@ -6,7 +6,7 @@ const SearchBar = ({ setSearchText, searchText, onSearch }) => {
 	return (
 		<div className={styles.search_bar}>
 			<Input
-				onChange={setSearchText}
+				onChange={(e) => setSearchText(e.target.value)}
 				value={searchText}
 				name='search'
 				placeholdetText='Enter course name...'
