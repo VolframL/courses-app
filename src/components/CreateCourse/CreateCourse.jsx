@@ -1,12 +1,12 @@
+import { useState } from 'react';
+import { v4 as uuid } from 'uuid';
+
 import Button from 'common/Button/Button';
 import Input from 'common/Input/Input';
 import Textarea from 'common/Textarea/Textarea';
 
 import { pipeDuration } from 'helpers/pipeDuration';
-
-import { useState } from 'react';
-
-import { v4 as uuid } from 'uuid';
+import { CREATE_AUTHOR_BUTTON_TEXT } from 'constants';
 
 import styles from './CreateCourse.module.scss';
 
@@ -162,7 +162,7 @@ const CreateCourse = ({ onSetPage, mockedAuthorsList, mockedCoursesList }) => {
 					<Button
 						disabled={errorAuthorName}
 						onClick={() => onCreateAuthor(newAuthorName)}
-						buttonText='Create author'
+						buttonText={CREATE_AUTHOR_BUTTON_TEXT}
 					/>
 				</div>
 				<div className={styles.author_list}>

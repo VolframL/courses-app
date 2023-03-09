@@ -53,3 +53,12 @@ export const mockedAuthorsList = [
 		name: 'Valentina Larina',
 	},
 ];
+
+// Button text
+// const LOGOUT_BUTTON_TEXT = 'Logout';
+
+const CREATE_AUTHOR_BUTTON_TEXT = 'Create author';
+// const ADD_AUTHOR_BUTTON_TEXT = 'Add author';
+// const DELETE_AUTHOR_BUTTON_TEXT = 'Delete author';
+
+export { CREATE_AUTHOR_BUTTON_TEXT };

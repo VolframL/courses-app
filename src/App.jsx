@@ -1,10 +1,12 @@
+import { useState } from 'react';
+
 import Header from 'components/Header/Header';
 import Courses from 'components/Courses/Courses';
 import CreateCourse from 'components/CreateCourse/CreateCourse';
-import './App.css';
-import { useState } from 'react';
 
 import { mockedAuthorsList, mockedCoursesList } from 'constants';
+
+import './App.css';
 
 function App() {
 	const [page, setPage] = useState('courses');

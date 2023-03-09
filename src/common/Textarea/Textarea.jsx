@@ -8,7 +8,6 @@ const Textarea = ({
 	value,
 	cols = 1,
 	rows = 4,
-	required = true,
 	error = '',
 }) => {
 	return (
@@ -22,7 +21,6 @@ const Textarea = ({
 				placeholder={placeholderText}
 				cols={cols}
 				rows={rows}
-				required={required}
 			/>
 			<div className={styles.error}>{error}</div>
 		</div>

@@ -1,5 +1,6 @@
 import Input from 'common/Input/Input';
 import Button from 'common/Button/Button';
+
 import styles from './SearchBar.module.scss';
 
 const SearchBar = ({ setSearchText, searchText, onSearch }) => {

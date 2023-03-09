@@ -1,8 +1,10 @@
+import { useState, useEffect } from 'react';
+
 import Button from 'common/Button/Button';
 import SearchBar from './components/SearchBar/SearchBar';
-import CourceCard from './components/CourseCard/CourseCard';
+import CourseCard from './components/CourseCard/CourseCard';
+
 import styles from './Courses.module.scss';
-import { useState, useEffect } from 'react';
 
 const Courses = ({ onSetPage, mockedCoursesList }) => {
 	const [searchText, setSearchText] = useState('');
@@ -10,9 +12,21 @@ const Courses = ({ onSetPage, mockedCoursesList }) => {
 
 	const onSearch = () => {
 		setCoursesList(
-			coursesList.filter((course) =>
-				course.title.toLowerCase().includes(searchText.toLowerCase())
-			)
+			coursesList.filter((course) => {
+				const searchByName = course.title
+					.toLowerCase()
+					.includes(searchText.toLowerCase());
+				if (searchByName) {
+					return searchByName;
+				}
+				const searchById = course.id
+					.toLowerCase()
+					.includes(searchText.toLowerCase());
+				if (searchById) {
+					return searchById;
+				}
+				return false;
+			})
 		);
 	};
 
@@ -37,7 +51,7 @@ const Courses = ({ onSetPage, mockedCoursesList }) => {
 				/>
 			</div>
 			{coursesList.map((course) => (
-				<CourceCard key={course.id} course={course} />
+				<CourseCard key={course.id} course={course} />
 			))}
 		</main>
 	);

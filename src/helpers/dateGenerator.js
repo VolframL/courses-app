@@ -1,3 +1,2 @@
-export const dateGenerator = (date) => {
-	return new Date(date).toLocaleDateString('ua-UK');
-};
+export const dateGenerator = (date) =>
+	new Date(date).toLocaleDateString('ua-UK');

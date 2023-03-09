@@ -1,9 +1,10 @@
 import Button from 'common/Button/Button';
 
-import styles from './CourseCard.module.scss';
 import { dateGenerator } from 'helpers/dateGenerator';
 import { pipeDuration } from 'helpers/pipeDuration';
 import { findAuthor } from 'helpers/findAuthor';
+
+import styles from './CourseCard.module.scss';
 
 const CourseCard = ({
 	course: { id, title, description, creationDate, duration, authors },
