@@ -6,3 +6,11 @@
 	width: 80vw;
 	margin: 0 auto;
 }
+
+.wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 2px solid #BAD6E9;
+	padding: 30px;
+}

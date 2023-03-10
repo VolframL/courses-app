@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Button from 'common/Button/Button';
 import SearchBar from './components/SearchBar/SearchBar';
@@ -6,7 +7,8 @@ import CourseCard from './components/CourseCard/CourseCard';
 
 import styles from './Courses.module.scss';
 
-const Courses = ({ onSetPage, mockedCoursesList }) => {
+const Courses = ({ mockedCoursesList }) => {
+	const navigate = useNavigate();
 	const [searchText, setSearchText] = useState('');
 	const [coursesList, setCoursesList] = useState(mockedCoursesList);
 
@@ -46,7 +48,7 @@ const Courses = ({ onSetPage, mockedCoursesList }) => {
 					searchText={searchText}
 				/>
 				<Button
-					onClick={() => onSetPage('addCouse')}
+					onClick={() => navigate('/courses/add')}
 					buttonText='Add new course'
 				/>
 			</div>

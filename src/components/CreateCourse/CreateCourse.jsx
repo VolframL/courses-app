@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
@@ -10,7 +11,9 @@ import { CREATE_AUTHOR_BUTTON_TEXT } from 'constants';
 
 import styles from './CreateCourse.module.scss';
 
-const CreateCourse = ({ onSetPage, mockedAuthorsList, mockedCoursesList }) => {
+const CreateCourse = ({ mockedAuthorsList, mockedCoursesList }) => {
+	const navigate = useNavigate();
+
 	const [courseAuthorList, setCourseAuthorList] = useState([]);
 	const [requiredAuthorList, setRequiredAuthorList] = useState(false);
 	const [authorList, setAuthorList] = useState(mockedAuthorsList);
@@ -118,7 +121,7 @@ const CreateCourse = ({ onSetPage, mockedAuthorsList, mockedCoursesList }) => {
 			};
 
 			mockedCoursesList.push(newCourse);
-			onSetPage('courses');
+			navigate('/courses');
 		} else {
 			alert('Please, fill in all fields');
 		}

@@ -1,8 +1,6 @@
 import Button from 'common/Button/Button';
 
-import { dateGenerator } from 'helpers/dateGenerator';
-import { pipeDuration } from 'helpers/pipeDuration';
-import { findAuthor } from 'helpers/findAuthor';
+import { dateGenerator, pipeDuration, findAuthor } from 'helpers';
 
 import styles from './CourseCard.module.scss';
 
@@ -19,7 +17,7 @@ const CourseCard = ({
 				<div>
 					<span>
 						<b>Authors: </b>
-						{findAuthor(authors)}
+						{findAuthor(authors).join(', ')}
 					</span>
 				</div>
 				<div>

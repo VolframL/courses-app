@@ -5,6 +5,5 @@ export const findAuthor = (authorsId) => {
 	authorsId.forEach((item) => {
 		arr.push(mockedAuthorsList.filter((author) => author.id === item)[0].name);
 	});
-	let str = arr.join(', ');
-	return str;
+	return arr;
 };

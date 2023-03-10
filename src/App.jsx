@@ -1,37 +1,69 @@
-import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Header from 'components/Header/Header';
 import Courses from 'components/Courses/Courses';
+import CourseInfo from 'components/CourseInfo/CourseInfo';
 import CreateCourse from 'components/CreateCourse/CreateCourse';
+import Registration from 'components/Registration/Registration';
+import Login from 'components/Login/Login';
 
 import { mockedAuthorsList, mockedCoursesList } from 'constants';
 
-import './App.css';
+import styles from './App.module.scss';
 
 function App() {
-	const [page, setPage] = useState('courses');
-
-	const onSetPage = (page) => {
-		setPage(page);
-	};
-
 	return (
-		<div className='app'>
-			<Header />
-			{page === 'courses' ? (
-				<Courses
-					onSetPage={onSetPage}
-					mockedAuthorsList={mockedAuthorsList}
-					mockedCoursesList={mockedCoursesList}
-				/>
-			) : (
-				<CreateCourse
-					onSetPage={onSetPage}
-					mockedAuthorsList={mockedAuthorsList}
-					mockedCoursesList={mockedCoursesList}
-				/>
-			)}
-		</div>
+		<BrowserRouter>
+			<div className={styles.app}>
+				<Header />
+				<div className={styles.wrapper}>
+					<Routes>
+						<Route
+							path='/courses'
+							element={
+								<Courses
+									mockedAuthorsList={mockedAuthorsList}
+									mockedCoursesList={mockedCoursesList}
+								/>
+							}
+						/>
+						<Route
+							path='/courses/:courseId'
+							element={
+								<CourseInfo
+									mockedAuthorsList={mockedAuthorsList}
+									mockedCoursesList={mockedCoursesList}
+								/>
+							}
+						/>
+						<Route
+							path='/courses/add'
+							element={
+								<CreateCourse
+									mockedAuthorsList={mockedAuthorsList}
+									mockedCoursesList={mockedCoursesList}
+								/>
+							}
+						/>
+						<Route path='/registration' element={<Registration />} />
+						<Route path='/Login' element={<Login />} />
+						{window.localStorage.getItem('token') ? (
+							<Route
+								path='/'
+								element={
+									<Courses
+										mockedAuthorsList={mockedAuthorsList}
+										mockedCoursesList={mockedCoursesList}
+									/>
+								}
+							/>
+						) : (
+							<Route path='/' element={<Login />} />
+						)}
+					</Routes>
+				</div>
+			</div>
+		</BrowserRouter>
 	);
 }
 
