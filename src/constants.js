@@ -58,7 +58,59 @@ export const mockedAuthorsList = [
 	},
 ];
 
-// Button text
+export const ENGLISH = {
+	BUTTON: {
+		LOGOUT: 'Logout',
+		LOGIN: 'Login',
+		REGISTRATION: 'Registration',
+		SEARCH: 'Search',
+		ADD_COURSE: 'Add new course',
+		SHOW_COURSE: 'Show course',
+		CREATE_COURSE: 'Create course',
+		CREATE_AUTHOR: 'Create author',
+		ADD_AUTHOR: 'Add author',
+		DELETE_AUTHOR: 'Delete author',
+		BACK_TO_COURSES: 'Back to courses',
+	},
+	INPUT: {
+		EMAIL: {
+			LABEL: 'Email',
+			PLACEHOLDER: 'Enter email',
+		},
+		PASSWORD: {
+			LABEL: 'Password',
+			PLACEHOLDER: 'Enter password',
+		},
+		NAME: {
+			LABEL: 'Name',
+			PLACEHOLDER: 'Enter name',
+		},
+		SEARCH: {
+			LABEL: '',
+			PLACEHOLDER: 'Enter course name or id...',
+		},
+		TITLE: {
+			LABEL: 'Title',
+			PLACEHOLDER: 'Enter title',
+		},
+		DESCRIPTION: {
+			LABEL: 'Description',
+			PLACEHOLDER: 'Enter description',
+		},
+		AUTHOR_NAME: {
+			LABEL: 'Author name',
+			PLACEHOLDER: 'Enter author name',
+		},
+		DURATION: {
+			LABEL: 'Duration',
+			PLACEHOLDER: 'Enter duration in minutes',
+		},
+	},
+	TEXT: {
+		LOGIN_PAGE: 'If you not have an account you can ',
+		REGISTRATION_PAGE: 'If you have an account you can ',
+	},
+};
 // const LOGOUT_BUTTON_TEXT = 'Logout';
 
 const CREATE_AUTHOR_BUTTON_TEXT = 'Create author';

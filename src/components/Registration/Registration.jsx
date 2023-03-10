@@ -13,6 +13,7 @@ const Registration = () => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -27,7 +28,8 @@ const Registration = () => {
 			navigate('/login');
 		} catch (error) {
 			console.log(error.response.data);
-			alert('Failed to register, status');
+			console.log(error.response.status);
+			setError('Failed to register');
 		}
 	};
 
@@ -58,6 +60,7 @@ const Registration = () => {
 					labelText='Password'
 					placeholderText='Enter password'
 				/>
+				<div className={styles.error}>{error}</div>
 				<Button type='submit' buttonText='Registration' />
 				<div>
 					If you have an account you can <Link to='/login'>Login</Link>

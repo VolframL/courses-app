@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { dateGenerator, pipeDuration, findAuthor } from 'helpers';
-import axios from 'utils/axios';
+// import axios from 'utils/axios';
 
 import styles from './CourseInfo.module.scss';
 

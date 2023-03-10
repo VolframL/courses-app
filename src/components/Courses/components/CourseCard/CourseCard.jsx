@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router';
+
 import Button from 'common/Button/Button';
 
 import { dateGenerator, pipeDuration, findAuthor } from 'helpers';
@@ -7,6 +9,12 @@ import styles from './CourseCard.module.scss';
 const CourseCard = ({
 	course: { id, title, description, creationDate, duration, authors },
 }) => {
+	const navigate = useNavigate();
+
+	const onShowCourse = (id) => {
+		navigate(`/courses/${id}`);
+	};
+
 	return (
 		<div key={id} className={styles.course}>
 			<div className={styles.descr}>
@@ -28,7 +36,7 @@ const CourseCard = ({
 					<b>Created: </b>
 					{dateGenerator(creationDate)}
 				</div>
-				<Button buttonText='Show course' />
+				<Button onClick={() => onShowCourse(id)} buttonText='Show course' />
 			</div>
 		</div>
 	);

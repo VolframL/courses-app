@@ -1,17 +1,34 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Input from 'common/Input/Input';
 import Button from 'common/Button/Button';
 
+import { ENGLISH } from 'constants';
+
 import styles from './Login.module.scss';
 import axios from 'utils/axios';
 
-const Login = () => {
+const Login = ({ userName, setUserName }) => {
 	const navigate = useNavigate();
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
+
+	useEffect(() => {
+		if (!userName) {
+			navigate('/login');
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	useEffect(() => {
+		if (userName) {
+			navigate('/courses');
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [userName]);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -22,38 +39,39 @@ const Login = () => {
 
 		try {
 			const { data } = await axios.post('/login', user);
-			window.localStorage.setItem('token', data.result);
+			window.localStorage.setItem('token', JSON.stringify(data));
+			setUserName(data.user.name);
 			navigate('/courses');
 		} catch (error) {
 			console.log(error.response.data);
-			alert('Failed to login');
+			console.log(error.response.status);
+			setError(error.response.data.result);
 		}
 	};
 
 	return (
 		<div className={styles.login}>
 			<form onSubmit={onSubmit}>
-				<h2>Login</h2>
+				<h2>{ENGLISH.BUTTON.LOGIN}</h2>
 				<Input
 					onChange={(e) => setEmail(e.target.value)}
 					value={email}
 					type='email'
-					name='email'
-					labelText='Email'
-					placeholderText='Enter email'
+					labelText={ENGLISH.INPUT.EMAIL.LABEL}
+					placeholderText={ENGLISH.INPUT.EMAIL.PLACEHOLDER}
 				/>
 				<Input
 					onChange={(e) => setPassword(e.target.value)}
 					value={password}
-					name='password'
 					type='password'
-					labelText='Password'
-					placeholderText='Enter password'
+					labelText={ENGLISH.INPUT.PASSWORD.LABEL}
+					placeholderText={ENGLISH.INPUT.PASSWORD.PLACEHOLDER}
 				/>
-				<Button type='submit' buttonText='Login' />
+				<div className={styles.error}>{error}</div>
+				<Button type='submit' buttonText={ENGLISH.BUTTON.LOGIN} />
 				<div>
-					If you not have an account you can{' '}
-					<Link to='/registration'>Registration</Link>
+					{ENGLISH.TEXT.LOGIN_PAGE}
+					<Link to='/registration'> {ENGLISH.BUTTON.REGISTRATION}</Link>
 				</div>
 			</form>
 		</div>

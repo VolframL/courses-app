@@ -12,6 +12,11 @@ const Courses = ({ mockedCoursesList }) => {
 	const [searchText, setSearchText] = useState('');
 	const [coursesList, setCoursesList] = useState(mockedCoursesList);
 
+	useEffect(() => {
+		navigate('/courses');
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	const onSearch = () => {
 		setCoursesList(
 			coursesList.filter((course) => {
