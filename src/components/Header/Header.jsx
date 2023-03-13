@@ -10,7 +10,7 @@ const Header = ({ userName, setUserName }) => {
 
 	const onLogout = () => {
 		setUserName('');
-		window.localStorage.removeItem('token');
+		window.localStorage.removeItem('token-courses');
 		navigate('/login');
 	};
 

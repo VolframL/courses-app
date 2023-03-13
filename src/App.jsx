@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import Header from 'components/Header/Header';
@@ -16,7 +16,7 @@ function App() {
 	const [userName, setUserName] = useState('');
 
 	const getToken = () => {
-		const token = JSON.parse(window.localStorage.getItem('token'));
+		const token = JSON.parse(window.localStorage.getItem('token-courses'));
 		if (token) {
 			setUserName(token.user.name);
 		}
@@ -27,78 +27,76 @@ function App() {
 	}, []);
 
 	return (
-		<BrowserRouter>
-			<div className={styles.app}>
-				<Header userName={userName} setUserName={setUserName} />
-				<div className={styles.wrapper}>
-					<Routes>
-						{userName ? (
-							<>
-								<Route
-									path='/'
-									element={
-										<Courses
-											mockedAuthorsList={mockedAuthorsList}
-											mockedCoursesList={mockedCoursesList}
-										/>
-									}
-								/>
-								<Route
-									path='/courses'
-									element={
-										<Courses
-											mockedAuthorsList={mockedAuthorsList}
-											mockedCoursesList={mockedCoursesList}
-										/>
-									}
-								/>
-								<Route
-									path='/courses/:courseId'
-									element={
-										<CourseInfo
-											mockedAuthorsList={mockedAuthorsList}
-											mockedCoursesList={mockedCoursesList}
-										/>
-									}
-								/>
-								<Route
-									path='/courses/add'
-									element={
-										<CreateCourse
-											mockedAuthorsList={mockedAuthorsList}
-											mockedCoursesList={mockedCoursesList}
-										/>
-									}
-								/>
-								<Route path='/registration' element={<Registration />} />
-								<Route
-									path='/Login'
-									element={
-										<Login userName={userName} setUserName={setUserName} />
-									}
-								/>
-							</>
-						) : (
-							<>
-								<Route path='/registration' element={<Registration />} />
-								<Route
-									path='/'
-									element={
-										<Login userName={userName} setUserName={setUserName} />
-									}
-								/>
-								<Route
-									path='/login'
-									element={
-										<Login userName={userName} setUserName={setUserName} />
-									}
-								/>
-							</>
-						)}
-					</Routes>
-				</div>
+		<div className={styles.app}>
+			<Header userName={userName} setUserName={setUserName} />
+			<div className={styles.wrapper}>
+				<Routes>
+					{userName ? (
+						<>
+							<Route
+								path='/'
+								element={
+									<Courses
+										mockedAuthorsList={mockedAuthorsList}
+										mockedCoursesList={mockedCoursesList}
+									/>
+								}
+							/>
+							<Route
+								path='/courses'
+								element={
+									<Courses
+										mockedAuthorsList={mockedAuthorsList}
+										mockedCoursesList={mockedCoursesList}
+									/>
+								}
+							/>
+							<Route
+								path='/courses/:courseId'
+								element={
+									<CourseInfo
+										mockedAuthorsList={mockedAuthorsList}
+										mockedCoursesList={mockedCoursesList}
+									/>
+								}
+							/>
+							<Route
+								path='/courses/add'
+								element={
+									<CreateCourse
+										mockedAuthorsList={mockedAuthorsList}
+										mockedCoursesList={mockedCoursesList}
+									/>
+								}
+							/>
+							<Route path='/registration' element={<Registration />} />
+							<Route
+								path='/Login'
+								element={
+									<Login userName={userName} setUserName={setUserName} />
+								}
+							/>
+						</>
+					) : (
+						<>
+							<Route path='/registration' element={<Registration />} />
+							<Route
+								path='/'
+								element={
+									<Login userName={userName} setUserName={setUserName} />
+								}
+							/>
+							<Route
+								path='/login'
+								element={
+									<Login userName={userName} setUserName={setUserName} />
+								}
+							/>
+						</>
+					)}
+				</Routes>
 			</div>
-		</BrowserRouter>
+		</div>
 	);
 }
 

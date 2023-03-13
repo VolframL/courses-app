@@ -39,7 +39,7 @@ const Login = ({ userName, setUserName }) => {
 
 		try {
 			const { data } = await axios.post('/login', user);
-			window.localStorage.setItem('token', JSON.stringify(data));
+			window.localStorage.setItem('token-courses', JSON.stringify(data));
 			setUserName(data.user.name);
 			navigate('/courses');
 		} catch (error) {
