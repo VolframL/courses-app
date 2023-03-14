@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
 import Header from 'components/Header/Header';
 import Courses from 'components/Courses/Courses';
@@ -8,17 +8,18 @@ import CreateCourse from 'components/CreateCourse/CreateCourse';
 import Registration from 'components/Registration/Registration';
 import Login from 'components/Login/Login';
 
-import { mockedAuthorsList, mockedCoursesList } from 'constants';
+import { mockedAuthorsList, mockedCoursesList } from './constants';
 
 import styles from './App.module.scss';
 
-function App() {
-	const [userName, setUserName] = useState('');
+const App: FC = () => {
+	const [userName, setUserName] = useState<string>('');
 
 	const getToken = () => {
-		const token = JSON.parse(window.localStorage.getItem('token-courses'));
+		const token = window.localStorage.getItem('token-courses');
 		if (token) {
-			setUserName(token.user.name);
+			const userName: string = JSON.parse(token).user.name;
+			setUserName(userName);
 		}
 	};
 
@@ -37,7 +38,7 @@ function App() {
 								path='/'
 								element={
 									<Courses
-										mockedAuthorsList={mockedAuthorsList}
+										// mockedAuthorsList={mockedAuthorsList}
 										mockedCoursesList={mockedCoursesList}
 									/>
 								}
@@ -46,7 +47,7 @@ function App() {
 								path='/courses'
 								element={
 									<Courses
-										mockedAuthorsList={mockedAuthorsList}
+										// mockedAuthorsList={mockedAuthorsList}
 										mockedCoursesList={mockedCoursesList}
 									/>
 								}
@@ -98,6 +99,6 @@ function App() {
 			</div>
 		</div>
 	);
-}
+};
 
 export default App;

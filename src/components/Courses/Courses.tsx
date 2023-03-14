@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'common/Button/Button';
@@ -6,8 +6,13 @@ import SearchBar from './components/SearchBar/SearchBar';
 import CourseCard from './components/CourseCard/CourseCard';
 
 import styles from './Courses.module.scss';
+import { CourseType } from '../../@types/types';
 
-const Courses = ({ mockedCoursesList }) => {
+type CoursesProps = {
+	mockedCoursesList: CourseType[];
+};
+
+const Courses: FC<CoursesProps> = ({ mockedCoursesList }) => {
 	const navigate = useNavigate();
 	const [searchText, setSearchText] = useState('');
 	const [coursesList, setCoursesList] = useState(mockedCoursesList);
@@ -17,7 +22,7 @@ const Courses = ({ mockedCoursesList }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const onSearch = () => {
+	const onSearch = (): boolean | void => {
 		setCoursesList(
 			coursesList.filter((course) => {
 				const searchByName = course.title

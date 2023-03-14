@@ -1,10 +1,22 @@
+import React, { ChangeEvent, FC } from 'react';
+
 import styles from './Input.module.scss';
 
-const Input = ({
+type InputType = {
+	name?: string;
+	labelText?: string;
+	placeholderText: string;
+	onChange: (value: ChangeEvent<HTMLInputElement>) => void;
+	value: string | number;
+	type?: 'text' | 'email' | 'password';
+	error?: string;
+};
+
+const Input: FC<InputType> = ({
 	name,
 	labelText = '',
 	placeholderText = '',
-	onChange = () => {},
+	onChange,
 	value,
 	type = 'text',
 	error = '',
