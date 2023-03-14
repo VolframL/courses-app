@@ -35,11 +35,7 @@ const App: FC = () => {
 					{userName ? (
 						<>
 							<Route
-								path='/'
-								element={<Courses mockedCoursesList={mockedCoursesList} />}
-							/>
-							<Route
-								path='/courses'
+								path='*'
 								element={<Courses mockedCoursesList={mockedCoursesList} />}
 							/>
 							<Route
@@ -53,13 +49,6 @@ const App: FC = () => {
 										mockedAuthorsList={mockedAuthorsList}
 										mockedCoursesList={mockedCoursesList}
 									/>
-								}
-							/>
-							<Route path='/registration' element={<Registration />} />
-							<Route
-								path='/Login'
-								element={
-									<Login userName={userName} setUserName={setUserName} />
 								}
 							/>
 						</>

@@ -1,4 +1,4 @@
-import { AuthorType, CourseType } from './@types/types';
+import { AuthorType, CourseType } from 'types';
 
 export const mockedCoursesList: CourseType[] = [
 	{
@@ -124,10 +124,7 @@ export const ENGLISH: Language = {
 		REGISTRATION_PAGE: 'If you have an account you can ',
 	},
 };
-// const LOGOUT_BUTTON_TEXT = 'Logout';
 
-const CREATE_AUTHOR_BUTTON_TEXT = 'Create author';
+export const CREATE_AUTHOR_BUTTON_TEXT = 'Create author';
 // const ADD_AUTHOR_BUTTON_TEXT = 'Add author';
 // const DELETE_AUTHOR_BUTTON_TEXT = 'Delete author';
-
-export { CREATE_AUTHOR_BUTTON_TEXT };

@@ -6,7 +6,7 @@ import Button from 'common/Button/Button';
 import { dateGenerator, pipeDuration, findAuthor } from 'helpers';
 
 import styles from './CourseCard.module.scss';
-import { CourseType } from '../../../../@types/types';
+import { CourseType } from 'types';
 
 type CourseCardProps = {
 	course: CourseType;

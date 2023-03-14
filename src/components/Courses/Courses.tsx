@@ -6,7 +6,7 @@ import SearchBar from './components/SearchBar/SearchBar';
 import CourseCard from './components/CourseCard/CourseCard';
 
 import styles from './Courses.module.scss';
-import { CourseType } from '../../@types/types';
+import { CourseType } from 'types';
 
 type CoursesProps = {
 	mockedCoursesList: CourseType[];

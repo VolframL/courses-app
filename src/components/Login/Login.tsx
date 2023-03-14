@@ -9,7 +9,7 @@ import { ENGLISH } from '../../constants';
 import styles from './Login.module.scss';
 import axios, { AxiosError } from 'utils/axios';
 
-import { UserNameProps, UserData } from '../../@types/types';
+import { UserNameProps, UserData } from 'types';
 
 const Login: FC<UserNameProps> = ({ userName, setUserName }) => {
 	const navigate = useNavigate();

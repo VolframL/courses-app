@@ -6,9 +6,9 @@ import Button from 'common/Button/Button';
 import Input from 'common/Input/Input';
 import Textarea from 'common/Textarea/Textarea';
 
-import { pipeDuration, validateMinLength } from 'helpers/';
+import { pipeDuration, validateMinLength } from 'helpers';
 import { CREATE_AUTHOR_BUTTON_TEXT } from '../../constants';
-import { CourseType, AuthorType } from '../../@types/types';
+import { CourseType, AuthorType } from 'types';
 
 import styles from './CreateCourse.module.scss';
 

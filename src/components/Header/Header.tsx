@@ -6,7 +6,7 @@ import Button from 'common/Button/Button';
 
 import styles from './Header.module.scss';
 
-import { UserNameProps } from '../../@types/types';
+import { UserNameProps } from 'types';
 
 const Header: FC<UserNameProps> = ({ userName, setUserName }) => {
 	const navigate = useNavigate();
