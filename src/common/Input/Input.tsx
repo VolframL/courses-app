@@ -5,21 +5,21 @@ import styles from './Input.module.scss';
 type InputType = {
 	name?: string;
 	labelText?: string;
-	placeholderText: string;
-	onChange: (value: ChangeEvent<HTMLInputElement>) => void;
-	value: string | number;
+	placeholderText?: string;
+	onChange?: (value: ChangeEvent<HTMLInputElement>) => void;
+	value?: string | number;
 	type?: 'text' | 'email' | 'password';
 	error?: string;
 };
 
 const Input: FC<InputType> = ({
 	name,
-	labelText = '',
-	placeholderText = '',
+	labelText,
+	placeholderText,
 	onChange,
 	value,
-	type = 'text',
-	error = '',
+	type,
+	error,
 }) => {
 	return (
 		<div className={styles.wrapper}>

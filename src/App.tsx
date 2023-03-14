@@ -36,30 +36,15 @@ const App: FC = () => {
 						<>
 							<Route
 								path='/'
-								element={
-									<Courses
-										// mockedAuthorsList={mockedAuthorsList}
-										mockedCoursesList={mockedCoursesList}
-									/>
-								}
+								element={<Courses mockedCoursesList={mockedCoursesList} />}
 							/>
 							<Route
 								path='/courses'
-								element={
-									<Courses
-										// mockedAuthorsList={mockedAuthorsList}
-										mockedCoursesList={mockedCoursesList}
-									/>
-								}
+								element={<Courses mockedCoursesList={mockedCoursesList} />}
 							/>
 							<Route
 								path='/courses/:courseId'
-								element={
-									<CourseInfo
-										mockedAuthorsList={mockedAuthorsList}
-										mockedCoursesList={mockedCoursesList}
-									/>
-								}
+								element={<CourseInfo mockedCoursesList={mockedCoursesList} />}
 							/>
 							<Route
 								path='/courses/add'

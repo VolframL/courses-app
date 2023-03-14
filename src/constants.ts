@@ -60,7 +60,18 @@ export const mockedAuthorsList: AuthorType[] = [
 	},
 ];
 
-export const ENGLISH = {
+type LabelPlaceholder = {
+	LABEL: string;
+	PLACEHOLDER: string;
+};
+
+type Language = {
+	BUTTON: Record<string, string>;
+	INPUT: Record<string, LabelPlaceholder>;
+	TEXT: Record<string, string>;
+};
+
+export const ENGLISH: Language = {
 	BUTTON: {
 		LOGOUT: 'Logout',
 		LOGIN: 'Login',

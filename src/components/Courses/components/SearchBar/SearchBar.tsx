@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ChangeEvent } from 'react';
 
 import Input from 'common/Input/Input';
 import Button from 'common/Button/Button';
@@ -19,7 +19,7 @@ const SearchBar: FC<SearchBarProps> = ({
 	return (
 		<div className={styles.search_bar}>
 			<Input
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+				onChange={(e: ChangeEvent<HTMLInputElement>) =>
 					setSearchText(e.target.value)
 				}
 				value={searchText}

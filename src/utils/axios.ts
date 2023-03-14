@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const instance = axios.create({
 	baseURL: 'http://localhost:4000',
@@ -8,5 +8,6 @@ const instance = axios.create({
 // 	config.headers.Authorization = window.localStorage.getItem('token');
 // 	return config;
 // });
+export { AxiosError };
 
 export default instance;

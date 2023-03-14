@@ -1,3 +1,4 @@
+import React, { FC } from 'react';
 import { useNavigate } from 'react-router';
 
 import Button from 'common/Button/Button';
@@ -5,13 +6,18 @@ import Button from 'common/Button/Button';
 import { dateGenerator, pipeDuration, findAuthor } from 'helpers';
 
 import styles from './CourseCard.module.scss';
+import { CourseType } from '../../../../@types/types';
 
-const CourseCard = ({
+type CourseCardProps = {
+	course: CourseType;
+};
+
+const CourseCard: FC<CourseCardProps> = ({
 	course: { id, title, description, creationDate, duration, authors },
 }) => {
 	const navigate = useNavigate();
 
-	const onShowCourse = (id) => {
+	const onShowCourse = (id: string) => {
 		navigate(`/courses/${id}`);
 	};
 

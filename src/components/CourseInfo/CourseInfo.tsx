@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { dateGenerator, pipeDuration, findAuthor } from 'helpers';
 // import axios from 'utils/axios';
 
 import styles from './CourseInfo.module.scss';
+import { CourseType } from '../../@types/types';
 
-const CourseInfo = ({ mockedCoursesList, mockedAuthorsList }) => {
+type CourseInfoProps = {
+	mockedCoursesList: CourseType[];
+};
+
+const CourseInfo: FC<CourseInfoProps> = ({ mockedCoursesList }) => {
 	const { courseId } = useParams();
 
-	const [course, setCourse] = useState([]);
+	const [course, setCourse] = useState<CourseType>();
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		setCourse(mockedCoursesList.filter((item) => item.id === courseId));
+		setCourse(mockedCoursesList.filter((item) => item.id === courseId)[0]);
 		setLoading(false);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -38,7 +43,7 @@ const CourseInfo = ({ mockedCoursesList, mockedAuthorsList }) => {
 		return <div>Loading</div>;
 	}
 
-	const { title, duration, description, authors, id, creationDate } = course[0];
+	const { title, duration, description, authors, id, creationDate } = course!;
 
 	return (
 		<div className={styles.root}>

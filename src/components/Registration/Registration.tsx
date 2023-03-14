@@ -1,13 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import React, { FC, FormEvent, useState } from 'react';
 
 import Input from 'common/Input/Input';
 import Button from 'common/Button/Button';
 
 import styles from './Registration.module.scss';
-import axios from 'utils/axios';
+import axios, { AxiosError } from 'utils/axios';
 
-const Registration = () => {
+const Registration: FC = () => {
 	const navigate = useNavigate();
 
 	const [name, setName] = useState('');
@@ -15,7 +15,7 @@ const Registration = () => {
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
 
-	const onSubmit = async (e) => {
+	const onSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		const newUser = {
 			name,
@@ -26,10 +26,18 @@ const Registration = () => {
 		try {
 			await axios.post('/register', newUser);
 			navigate('/login');
-		} catch (error) {
-			console.log(error.response.data);
-			console.log(error.response.status);
-			setError('Failed to register');
+		} catch (error: AxiosError | unknown) {
+			const err: any = error as AxiosError;
+			if (err.toJSON().message === 'Network Error') {
+				alert('No internet connection');
+			} else if (err.toJSON().status >= 400 && err.toJSON().status <= 499) {
+				const { status, data } = err.response;
+				console.log(data);
+				console.log(status);
+				setError(err.response?.data?.errors[0]);
+			} else {
+				alert('Unknown error, please try again later');
+			}
 		}
 	};
 

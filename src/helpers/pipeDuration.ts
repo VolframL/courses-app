@@ -1,4 +1,4 @@
-export const pipeDuration = (duration) => {
+export const pipeDuration = (duration: number) => {
 	const hours = Math.floor(duration / 60);
 	const hoursWithZero = hours > 9 ? hours : `0${hours}`;
 	const minutes = duration % 60;

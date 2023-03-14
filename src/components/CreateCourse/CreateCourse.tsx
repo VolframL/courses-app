@@ -1,51 +1,58 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import React, { FC, ChangeEvent, SetStateAction, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import Button from 'common/Button/Button';
 import Input from 'common/Input/Input';
 import Textarea from 'common/Textarea/Textarea';
 
-import { pipeDuration } from 'helpers/pipeDuration';
-import { CREATE_AUTHOR_BUTTON_TEXT } from 'constants';
+import { pipeDuration, validateMinLength } from 'helpers/';
+import { CREATE_AUTHOR_BUTTON_TEXT } from '../../constants';
+import { CourseType, AuthorType } from '../../@types/types';
 
 import styles from './CreateCourse.module.scss';
 
-const CreateCourse = ({ mockedAuthorsList, mockedCoursesList }) => {
+type CreateCourseProps = {
+	mockedAuthorsList: AuthorType[];
+	mockedCoursesList: CourseType[];
+};
+
+const CreateCourse: FC<CreateCourseProps> = ({
+	mockedAuthorsList,
+	mockedCoursesList,
+}) => {
 	const navigate = useNavigate();
 
-	const [courseAuthorList, setCourseAuthorList] = useState([]);
+	const [courseAuthorList, setCourseAuthorList] = useState<AuthorType[]>([]);
 	const [requiredAuthorList, setRequiredAuthorList] = useState(false);
 	const [authorList, setAuthorList] = useState(mockedAuthorsList);
 	const [title, setTitle] = useState('');
-	const [errorTitle, setErrorTitle] = useState(false);
+	const [errorTitle, setErrorTitle] = useState('');
 	const [newAuthorName, setNewAuthorName] = useState('');
-	const [errorAuthorName, setErrorAuthorName] = useState(false);
+	const [errorAuthorName, setErrorAuthorName] = useState('');
 	const [description, setDescription] = useState('');
-	const [errorDescription, setErrorDescription] = useState(false);
+	const [errorDescription, setErrorDescription] = useState('');
 	const [duration, setDuration] = useState('');
 	const [durationText, setDurationText] = useState('');
-	const [errorDuration, setErrorDuration] = useState(false);
+	const [errorDuration, setErrorDuration] = useState('');
 
-	const onInputTitle = (e) => {
+	const onInput = (
+		e: ChangeEvent<HTMLTextAreaElement> | ChangeEvent<HTMLInputElement>,
+		title: string,
+		minLength: number,
+		setFunc: {
+			(value: SetStateAction<string>): void;
+		},
+		setErrorFunc: {
+			(errorText: SetStateAction<string>): void;
+		}
+	) => {
 		const { value } = e.target;
-		setTitle(value);
-		validateMinLength(value, 'Title', setErrorTitle);
+		setFunc(value);
+		validateMinLength(value, minLength, title, setErrorFunc);
 	};
 
-	const onInputAuthorName = (e) => {
-		const { value } = e.target;
-		setNewAuthorName(value);
-		validateMinLength(value, 'Author name', setErrorAuthorName);
-	};
-
-	const onInputDescription = (e) => {
-		const { value } = e.target;
-		setDescription(value);
-		validateMinLength(value, 'Description', setErrorDescription);
-	};
-
-	const onInputDuration = (e) => {
+	const onInputDuration = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
 		if (/\D/.test(value)) {
 			setErrorDuration('It should only be numbers.');
@@ -55,20 +62,12 @@ const CreateCourse = ({ mockedAuthorsList, mockedCoursesList }) => {
 		} else {
 			setErrorDuration('');
 			setDuration(value);
-			setDurationText(pipeDuration(value));
+			setDurationText(pipeDuration(+value));
 		}
 	};
 
-	const validateMinLength = (value, label, setErrFunc) => {
-		if (value.trim().length < 2) {
-			setErrFunc(`${label} length should be at least 2 characters`);
-		} else {
-			setErrFunc(false);
-		}
-	};
-
-	const onCreateAuthor = (newAuthorName) => {
-		validateMinLength(newAuthorName, 'Author name', setErrorAuthorName);
+	const onCreateAuthor = (newAuthorName: string) => {
+		validateMinLength(newAuthorName, 2, 'Author name', setErrorAuthorName);
 
 		if (newAuthorName) {
 			const newAuthor = {
@@ -82,13 +81,13 @@ const CreateCourse = ({ mockedAuthorsList, mockedCoursesList }) => {
 		}
 	};
 
-	const onAddAuthor = (obj) => {
+	const onAddAuthor = (obj: AuthorType) => {
 		setRequiredAuthorList(false);
 		setCourseAuthorList([...courseAuthorList, obj]);
 		setAuthorList(authorList.filter((item) => item.id !== obj.id));
 	};
 
-	const onDeleteAuthor = (obj) => {
+	const onDeleteAuthor = (obj: AuthorType) => {
 		setAuthorList([...authorList, obj]);
 		setCourseAuthorList(courseAuthorList.filter((item) => item.id !== obj.id));
 	};
@@ -106,17 +105,17 @@ const CreateCourse = ({ mockedAuthorsList, mockedCoursesList }) => {
 		if (!duration) {
 			setErrorDuration('Duration cannot be empty');
 		}
-		if (duration <= 0) {
+		if (+duration <= 0) {
 			setErrorDuration('Duration must be more than 0 minute');
 		}
 
-		if (courseAuthorList.length && title && description && duration > 0) {
+		if (courseAuthorList.length && title && description && +duration > 0) {
 			const newCourse = {
 				id: uuid(),
 				title,
 				description,
 				creationDate: new Date().toLocaleDateString('en-US'),
-				duration,
+				duration: +duration,
 				authors: courseAuthorList.map((obj) => obj.id),
 			};
 
@@ -134,7 +133,7 @@ const CreateCourse = ({ mockedAuthorsList, mockedCoursesList }) => {
 					<Input
 						labelText='Title'
 						placeholderText='Enter title'
-						onChange={onInputTitle}
+						onChange={(e) => onInput(e, 'Title', 2, setTitle, setErrorTitle)}
 						value={title}
 						error={errorTitle}
 						name='title'
@@ -149,7 +148,9 @@ const CreateCourse = ({ mockedAuthorsList, mockedCoursesList }) => {
 					placeholderText='Enter description'
 					labelText='Description'
 					error={errorDescription}
-					onChange={onInputDescription}
+					onChange={(e) =>
+						onInput(e, 'Description', 2, setDescription, setErrorDescription)
+					}
 				/>
 			</div>
 			<div className={styles.main}>
@@ -157,13 +158,15 @@ const CreateCourse = ({ mockedAuthorsList, mockedCoursesList }) => {
 					<b>Add author</b>
 					<Input
 						value={newAuthorName}
-						onChange={onInputAuthorName}
+						onChange={(e) =>
+							onInput(e, 'Author name', 2, setNewAuthorName, setErrorAuthorName)
+						}
 						labelText='Author name'
 						placeholderText='Enter author name'
 						error={errorAuthorName}
 					/>
 					<Button
-						disabled={errorAuthorName}
+						disabled={Boolean(errorAuthorName)}
 						onClick={() => onCreateAuthor(newAuthorName)}
 						buttonText={CREATE_AUTHOR_BUTTON_TEXT}
 					/>

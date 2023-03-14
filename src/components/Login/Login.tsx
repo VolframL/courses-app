@@ -1,15 +1,17 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import React, { FC, FormEvent, useEffect, useState } from 'react';
 
 import Input from 'common/Input/Input';
 import Button from 'common/Button/Button';
 
-import { ENGLISH } from 'constants';
+import { ENGLISH } from '../../constants';
 
 import styles from './Login.module.scss';
-import axios from 'utils/axios';
+import axios, { AxiosError } from 'utils/axios';
 
-const Login = ({ userName, setUserName }) => {
+import { UserNameProps, UserData } from '../../@types/types';
+
+const Login: FC<UserNameProps> = ({ userName, setUserName }) => {
 	const navigate = useNavigate();
 
 	const [email, setEmail] = useState('');
@@ -30,7 +32,7 @@ const Login = ({ userName, setUserName }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [userName]);
 
-	const onSubmit = async (e) => {
+	const onSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		const user = {
 			password,
@@ -38,14 +40,23 @@ const Login = ({ userName, setUserName }) => {
 		};
 
 		try {
-			const { data } = await axios.post('/login', user);
+			const { data } = await axios.post<any, UserData>('/login', user);
 			window.localStorage.setItem('token-courses', JSON.stringify(data));
 			setUserName(data.user.name);
 			navigate('/courses');
-		} catch (error) {
-			console.log(error.response.data);
-			console.log(error.response.status);
-			setError(error.response.data.result);
+		} catch (error: AxiosError | unknown) {
+			const err: any = error as AxiosError;
+			console.log(err.toJSON());
+			if (err.toJSON().message === 'Network Error') {
+				alert('No internet connection');
+			} else if (err.toJSON().status >= 400 && err.toJSON().status <= 499) {
+				const { status, data } = err.response;
+				console.log(data);
+				console.log(status);
+				setError(err.response?.data?.result);
+			} else {
+				alert('Unknown error, please try again later');
+			}
 		}
 	};
 

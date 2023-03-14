@@ -1,6 +1,19 @@
+import React, { ChangeEvent, FC } from 'react';
 import styles from './Textarea.module.scss';
 
-const Textarea = ({
+type TextareaType = {
+	name?: string;
+	labelText?: string;
+	placeholderText?: string;
+	onChange?: (value: ChangeEvent<HTMLTextAreaElement>) => void;
+	value?: string | number;
+	type?: 'text' | 'email' | 'password';
+	error?: string;
+	cols?: number;
+	rows?: number;
+};
+
+const Textarea: FC<TextareaType> = ({
 	name,
 	labelText = '',
 	placeholderText = '',

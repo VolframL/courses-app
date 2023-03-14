@@ -1,3 +1,4 @@
+import React, { FC } from 'react';
 import { useNavigate } from 'react-router';
 
 import Logo from './components/Logo/Logo';
@@ -5,7 +6,9 @@ import Button from 'common/Button/Button';
 
 import styles from './Header.module.scss';
 
-const Header = ({ userName, setUserName }) => {
+import { UserNameProps } from '../../@types/types';
+
+const Header: FC<UserNameProps> = ({ userName, setUserName }) => {
 	const navigate = useNavigate();
 
 	const onLogout = () => {
