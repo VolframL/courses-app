@@ -7,6 +7,7 @@ type ButtonProps = {
 	onClick?: (e: MouseEvent<HTMLElement>) => void;
 	type?: 'submit' | 'reset' | 'button';
 	disabled?: boolean;
+	className?: string;
 };
 
 const Button: FC<ButtonProps> = ({
@@ -14,11 +15,12 @@ const Button: FC<ButtonProps> = ({
 	onClick,
 	type,
 	disabled = false,
+	className,
 }) => {
 	return (
 		<button
 			disabled={disabled}
-			className={styles.button}
+			className={styles.button + ' ' + className}
 			type={type}
 			onClick={onClick}
 		>

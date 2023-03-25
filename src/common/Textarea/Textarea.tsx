@@ -35,7 +35,7 @@ const Textarea: FC<TextareaType> = ({
 				cols={cols}
 				rows={rows}
 			/>
-			<div className={styles.error}>{error}</div>
+			<div className={'error'}>{error}</div>
 		</div>
 	);
 };

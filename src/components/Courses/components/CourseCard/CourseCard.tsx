@@ -22,7 +22,7 @@ const CourseCard: FC<CourseCardProps> = ({
 	};
 
 	return (
-		<div key={id} className={styles.course}>
+		<div key={id} className={styles.wrapper}>
 			<div className={styles.descr}>
 				<h2>{title}</h2>
 				<p>{description}</p>

@@ -17,7 +17,7 @@ const SearchBar: FC<SearchBarProps> = ({
 	onSearch,
 }) => {
 	return (
-		<div className={styles.search_bar}>
+		<div className={styles.wrapper}>
 			<Input
 				onChange={(e: ChangeEvent<HTMLInputElement>) =>
 					setSearchText(e.target.value)

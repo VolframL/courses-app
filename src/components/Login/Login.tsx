@@ -46,13 +46,9 @@ const Login: FC<UserNameProps> = ({ userName, setUserName }) => {
 			navigate('/courses');
 		} catch (error: AxiosError | unknown) {
 			const err: any = error as AxiosError;
-			console.log(err.toJSON());
 			if (err.toJSON().message === 'Network Error') {
-				alert('No internet connection');
+				alert('No connection to the server, try again later');
 			} else if (err.toJSON().status >= 400 && err.toJSON().status <= 499) {
-				const { status, data } = err.response;
-				console.log(data);
-				console.log(status);
 				setError(err.response?.data?.result);
 			} else {
 				alert('Unknown error, please try again later');
@@ -78,7 +74,7 @@ const Login: FC<UserNameProps> = ({ userName, setUserName }) => {
 					labelText={ENGLISH.INPUT.PASSWORD.LABEL}
 					placeholderText={ENGLISH.INPUT.PASSWORD.PLACEHOLDER}
 				/>
-				<div className={styles.error}>{error}</div>
+				<div className={'error'}>{error}</div>
 				<Button type='submit' buttonText={ENGLISH.BUTTON.LOGIN} />
 				<div>
 					{ENGLISH.TEXT.LOGIN_PAGE}

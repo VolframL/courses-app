@@ -1,17 +1,12 @@
-.registration {
+.wrapper {
 
-  form {
+  .form {
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    button {
+    .button {
       margin: 20px 0;
     }
   }
-
-}
-
-.error {
-  color: red;
 }

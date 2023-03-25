@@ -45,9 +45,9 @@ const CourseInfo: FC<CourseInfoProps> = ({ mockedCoursesList }) => {
 	const { title, duration, description, authors, id, creationDate } = course!;
 
 	return (
-		<div className={styles.root}>
+		<div className={styles.wrapper}>
 			<Link to='/courses'>{'<'} Back to courses</Link>
-			<div className={styles.wrapper}>
+			<div className={styles.course}>
 				<h2>{title}</h2>
 				<div className={styles.description}>
 					<p>{description}</p>

@@ -50,7 +50,7 @@ const Courses: FC<CoursesProps> = ({ mockedCoursesList }) => {
 	}, [searchText]);
 
 	return (
-		<main className={styles.courses}>
+		<div className={styles.wrapper}>
 			<div className={styles.top}>
 				<SearchBar
 					onSearch={onSearch}
@@ -65,7 +65,7 @@ const Courses: FC<CoursesProps> = ({ mockedCoursesList }) => {
 			{coursesList.map((course) => (
 				<CourseCard key={course.id} course={course} />
 			))}
-		</main>
+		</div>
 	);
 };
 

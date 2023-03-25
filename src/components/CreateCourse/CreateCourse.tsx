@@ -127,7 +127,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	};
 
 	return (
-		<div className={styles.root}>
+		<div className={styles.wrapper}>
 			<div className={styles.header}>
 				<div className={styles.input}>
 					<Input
@@ -205,7 +205,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 				</div>
 				<div className={styles.author_list}>
 					<b>Course authors</b>
-					<div className={styles.error}>
+					<div className={'error'}>
 						{requiredAuthorList && 'Author list cannot be empty'}
 					</div>
 					<ul>

@@ -32,7 +32,7 @@ const Input: FC<InputType> = ({
 				placeholder={placeholderText}
 				type={type}
 			/>
-			<div className={styles.error}>{error}</div>
+			<div className={'error'}>{error}</div>
 		</div>
 	);
 };

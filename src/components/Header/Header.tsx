@@ -18,7 +18,7 @@ const Header: FC<UserNameProps> = ({ userName, setUserName }) => {
 	};
 
 	return (
-		<header className={styles.header}>
+		<header className={styles.wrapper}>
 			<Logo />
 			<div className={styles.controls}>
 				<div className={styles.userName}>{userName}</div>

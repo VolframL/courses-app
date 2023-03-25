@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import React, { FC, useState, useEffect } from 'react';
 
 import Header from 'components/Header/Header';
@@ -10,32 +10,36 @@ import Login from 'components/Login/Login';
 
 import { mockedAuthorsList, mockedCoursesList } from './constants';
 
-import styles from './App.module.scss';
+import './App.scss';
 
 const App: FC = () => {
 	const [userName, setUserName] = useState<string>('');
+	const navigate = useNavigate();
+	let { pathname } = useLocation();
 
 	const getToken = () => {
 		const token = window.localStorage.getItem('token-courses');
 		if (token) {
 			const userName: string = JSON.parse(token).user.name;
 			setUserName(userName);
+			pathname === '/' ? navigate('/courses') : navigate(pathname);
 		}
 	};
 
 	useEffect(() => {
 		getToken();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
-		<div className={styles.app}>
+		<div className={'app'}>
 			<Header userName={userName} setUserName={setUserName} />
-			<div className={styles.wrapper}>
+			<main className={'main'}>
 				<Routes>
 					{userName ? (
 						<>
 							<Route
-								path='*'
+								path='/courses'
 								element={<Courses mockedCoursesList={mockedCoursesList} />}
 							/>
 							<Route
@@ -70,7 +74,7 @@ const App: FC = () => {
 						</>
 					)}
 				</Routes>
-			</div>
+			</main>
 		</div>
 	);
 };

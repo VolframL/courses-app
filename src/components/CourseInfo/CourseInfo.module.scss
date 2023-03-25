@@ -1,51 +1,51 @@
-.root {
+.wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 
+
   a {
     align-self: flex-start;
   }
-}
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+  .course {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 
-}
+    .description {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 100px;
 
-.description {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 100px;
+    }
 
-}
+    .course_info {
+      margin: 0 auto;
 
-.course_info {
-  margin: 0 auto;
+      div {
+        margin-bottom: 20px;
+      }
 
-  div {
-    margin-bottom: 20px;
+
+      ul {
+        margin: 0;
+        padding: 0;
+
+      }
+
+      li {
+        list-style: none;
+      }
+
+    }
+
+    .authors {
+      display: block;
+      margin-bottom: 10px;
+    }
   }
-
-
-  ul {
-    margin: 0;
-    padding: 0;
-
-  }
-
-  li {
-    list-style: none;
-  }
-
-}
-
-.authors {
-  display: block;
-  margin-bottom: 10px;
 }

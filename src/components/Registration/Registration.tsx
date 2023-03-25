@@ -29,11 +29,8 @@ const Registration: FC = () => {
 		} catch (error: AxiosError | unknown) {
 			const err: any = error as AxiosError;
 			if (err.toJSON().message === 'Network Error') {
-				alert('No internet connection');
+				alert('No connection to the server, try again later');
 			} else if (err.toJSON().status >= 400 && err.toJSON().status <= 499) {
-				const { status, data } = err.response;
-				console.log(data);
-				console.log(status);
 				setError(err.response?.data?.errors[0]);
 			} else {
 				alert('Unknown error, please try again later');
@@ -42,8 +39,8 @@ const Registration: FC = () => {
 	};
 
 	return (
-		<div className={styles.registration}>
-			<form onSubmit={onSubmit}>
+		<div className={styles.wrapper}>
+			<form className={styles.form} onSubmit={onSubmit}>
 				<h2>Registration</h2>
 				<Input
 					onChange={(e) => setName(e.target.value)}
@@ -68,8 +65,12 @@ const Registration: FC = () => {
 					labelText='Password'
 					placeholderText='Enter password'
 				/>
-				<div className={styles.error}>{error}</div>
-				<Button type='submit' buttonText='Registration' />
+				<div className={'error'}>{error}</div>
+				<Button
+					className={styles.button}
+					type='submit'
+					buttonText='Registration'
+				/>
 				<div>
 					If you have an account you can <Link to='/login'>Login</Link>
 				</div>

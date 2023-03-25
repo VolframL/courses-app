@@ -7,10 +7,15 @@
 	margin: 0 auto;
 }
 
-.wrapper {
+.main {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border: 2px solid #BAD6E9;
 	padding: 30px;
+}
+
+
+.error {
+	color: red;
 }
