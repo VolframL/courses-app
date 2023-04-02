@@ -1,5 +1,5 @@
 import { AuthorType } from 'types/types';
-import { SET_AUTHORS, CREATE_AUTHOR } from './actionTypes';
+import { GET_AUTHORS, CREATE_AUTHOR } from './actionTypes';
 
 const initialState: never[] = [];
 
@@ -8,7 +8,7 @@ export const authorsReducer = (
 	action: { type: string; payload: AuthorType[] | AuthorType }
 ) => {
 	switch (action.type) {
-		case SET_AUTHORS:
+		case GET_AUTHORS:
 			return action.payload;
 		case CREATE_AUTHOR:
 			return [...state, action.payload];

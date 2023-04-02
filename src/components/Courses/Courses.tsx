@@ -25,8 +25,6 @@ const Courses: FC = memo(() => {
 
 	const [filteresCourses, setFilteresCourses] = useState(coursesList);
 
-	console.log('courses render');
-
 	useEffect(() => {
 		fetchAllCourses().then(({ result }) => dispatch(setCourses(result)));
 		fetchAllAuthors().then(({ result }) => dispatch(setAuthors(result)));

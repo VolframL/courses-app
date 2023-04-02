@@ -1,8 +1,13 @@
 import { CourseType } from 'types/types';
-import { SET_COURSES, DELETE_COURSE, CREATE_COURSE } from './actionTypes';
+import {
+	GET_COURSES,
+	DELETE_COURSE,
+	CREATE_COURSE,
+	UPDATE_COURSE,
+} from './actionTypes';
 
 export const setCourses = (data: CourseType[]) => ({
-	type: SET_COURSES,
+	type: GET_COURSES,
 	payload: data,
 });
 export const deleteCourse = (id: string) => ({
@@ -11,5 +16,9 @@ export const deleteCourse = (id: string) => ({
 });
 export const createCourse = (course: CourseType) => ({
 	type: CREATE_COURSE,
+	payload: course,
+});
+export const updateCourse = (course: CourseType) => ({
+	type: UPDATE_COURSE,
 	payload: course,
 });

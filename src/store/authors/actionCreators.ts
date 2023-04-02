@@ -1,8 +1,8 @@
 import { AuthorType } from 'types/types';
-import { SET_AUTHORS, CREATE_AUTHOR } from './actionTypes';
+import { GET_AUTHORS, CREATE_AUTHOR } from './actionTypes';
 
 export const setAuthors = (data: AuthorType[]) => ({
-	type: SET_AUTHORS,
+	type: GET_AUTHORS,
 	payload: data,
 });
 export const createAuthor = (author: AuthorType) => ({

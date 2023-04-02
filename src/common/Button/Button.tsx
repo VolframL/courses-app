@@ -17,7 +17,6 @@ const Button: FC<ButtonProps> = ({
 	className = '',
 	children,
 }) => {
-	console.log('button ' + children?.toLocaleString() + 'render');
 	return (
 		<button
 			disabled={disabled}
