@@ -1,5 +1,6 @@
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import Header from 'components/Header/Header';
 import Courses from 'components/Courses/Courses';
@@ -8,71 +9,51 @@ import CreateCourse from 'components/CreateCourse/CreateCourse';
 import Registration from 'components/Registration/Registration';
 import Login from 'components/Login/Login';
 
-import { mockedAuthorsList, mockedCoursesList } from './constants';
+import { getUser } from 'store/selectors';
+
+import { mockedCoursesList } from './constants';
 
 import './App.scss';
 
 const App: FC = () => {
-	const [userName, setUserName] = useState<string>('');
 	const navigate = useNavigate();
-	let { pathname } = useLocation();
-
-	const getToken = () => {
-		const token = window.localStorage.getItem('token-courses');
-		if (token) {
-			const userName: string = JSON.parse(token).user.name;
-			setUserName(userName);
-			pathname === '/' ? navigate('/courses') : navigate(pathname);
-		}
-	};
+	const { pathname } = useLocation();
+	const user = useSelector(getUser);
 
 	useEffect(() => {
-		getToken();
+		user.isAuth
+			? pathname === '/'
+				? navigate('/courses')
+				: navigate(pathname)
+			: navigate('/login');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	if (!user.isAuth) {
+		return (
+			<div className={'app'}>
+				<Header />
+				<main className={'main'}>
+					<Routes>
+						<Route path='/login' element={<Login />} />
+						<Route path='/registration' element={<Registration />} />
+					</Routes>
+				</main>
+			</div>
+		);
+	}
+
 	return (
 		<div className={'app'}>
-			<Header userName={userName} setUserName={setUserName} />
+			<Header />
 			<main className={'main'}>
 				<Routes>
-					{userName ? (
-						<>
-							<Route
-								path='/courses'
-								element={<Courses mockedCoursesList={mockedCoursesList} />}
-							/>
-							<Route
-								path='/courses/:courseId'
-								element={<CourseInfo mockedCoursesList={mockedCoursesList} />}
-							/>
-							<Route
-								path='/courses/add'
-								element={
-									<CreateCourse
-										mockedAuthorsList={mockedAuthorsList}
-										mockedCoursesList={mockedCoursesList}
-									/>
-								}
-							/>
-						</>
-					) : (
-						<>
-							<Route path='/registration' element={<Registration />} />
-							<Route
-								path='/'
-								element={
-									<Login userName={userName} setUserName={setUserName} />
-								}
-							/>
-							<Route
-								path='/login'
-								element={
-									<Login userName={userName} setUserName={setUserName} />
-								}
-							/>
-						</>
-					)}
+					<Route path='/courses' element={<Courses />} />
+					<Route
+						path='/courses/:courseId'
+						element={<CourseInfo mockedCoursesList={mockedCoursesList} />}
+					/>
+					<Route path='/courses/add' element={<CreateCourse />} />
 				</Routes>
 			</main>
 		</div>

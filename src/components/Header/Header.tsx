@@ -6,14 +6,18 @@ import Button from 'common/Button/Button';
 
 import styles from './Header.module.scss';
 
-import { UserNameProps } from 'types';
+import { logout } from 'store/user/actionCreators';
+import { getUser } from 'store/selectors';
+import { useAppDispatch, useAppSelector } from 'store/index';
 
-const Header: FC<UserNameProps> = ({ userName, setUserName }) => {
+const Header: FC = () => {
+	const { name } = useAppSelector(getUser);
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	const onLogout = () => {
-		setUserName('');
-		window.localStorage.removeItem('token-courses');
+		dispatch(logout());
+		window.localStorage.removeItem('user');
 		navigate('/login');
 	};
 
@@ -21,8 +25,8 @@ const Header: FC<UserNameProps> = ({ userName, setUserName }) => {
 		<header className={styles.wrapper}>
 			<Logo />
 			<div className={styles.controls}>
-				<div className={styles.userName}>{userName}</div>
-				{userName && <Button buttonText='Logout' onClick={onLogout} />}
+				<div className={styles.userName}>{name}</div>
+				{name && <Button onClick={onLogout}>Logout</Button>}
 			</div>
 		</header>
 	);

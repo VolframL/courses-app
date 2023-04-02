@@ -1,22 +1,23 @@
-import React, { FC, MouseEvent } from 'react';
+import React, { FC, MouseEvent, ReactNode } from 'react';
 
 import styles from './Button.module.scss';
 
 type ButtonProps = {
-	buttonText?: string;
 	onClick?: (e: MouseEvent<HTMLElement>) => void;
 	type?: 'submit' | 'reset' | 'button';
 	disabled?: boolean;
 	className?: string;
+	children?: ReactNode;
 };
 
 const Button: FC<ButtonProps> = ({
-	buttonText,
 	onClick,
 	type,
 	disabled = false,
-	className,
+	className = '',
+	children,
 }) => {
+	console.log('button ' + children?.toLocaleString() + 'render');
 	return (
 		<button
 			disabled={disabled}
@@ -24,9 +25,8 @@ const Button: FC<ButtonProps> = ({
 			type={type}
 			onClick={onClick}
 		>
-			{buttonText}
+			{children}
 		</button>
 	);
 };
-
 export default Button;

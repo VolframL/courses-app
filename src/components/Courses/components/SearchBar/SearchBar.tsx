@@ -26,7 +26,7 @@ const SearchBar: FC<SearchBarProps> = ({
 				name='search'
 				placeholderText='Enter course name...'
 			/>
-			<Button onClick={onSearch} buttonText='Search' />
+			<Button onClick={onSearch}>Search</Button>
 		</div>
 	);
 };

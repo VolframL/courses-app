@@ -14,16 +14,31 @@ export type AuthorType = {
 
 export type UserNameProps = {
 	userName: string;
-	setUserName: (value: string) => void;
 };
 
 export type UserData = {
-	data: {
-		result: string;
-		successful: boolean;
-		user: {
-			email: string;
-			name: string;
-		};
+	result: string;
+	successful: boolean;
+	user: {
+		email: string;
+		name: string;
 	};
+};
+
+export type LoginPayload = {
+	email: string;
+	password: string;
+};
+
+export type RegisterPayload = {
+	email: string;
+	password: string;
+	name: string;
+};
+
+export type UserState = {
+	isAuth: boolean;
+	name: string;
+	email: string;
+	token: string;
 };

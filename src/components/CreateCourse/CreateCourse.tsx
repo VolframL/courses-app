@@ -1,5 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import React, { FC, ChangeEvent, SetStateAction, useState } from 'react';
+import React, {
+	FC,
+	ChangeEvent,
+	SetStateAction,
+	useState,
+	useEffect,
+} from 'react';
 import { v4 as uuid } from 'uuid';
 
 import Button from 'common/Button/Button';
@@ -9,23 +15,19 @@ import Textarea from 'common/Textarea/Textarea';
 import { pipeDuration, validateMinLength } from 'helpers';
 import { CREATE_AUTHOR_BUTTON_TEXT } from '../../constants';
 import { CourseType, AuthorType } from 'types';
+import { getAuthors } from 'store/selectors';
+import { createAuthor } from 'store/authors/actionCreators';
+import { createCourse } from 'store/courses/actionCreators';
+import { useAppDispatch, useAppSelector } from 'store/index';
 
 import styles from './CreateCourse.module.scss';
 
-type CreateCourseProps = {
-	mockedAuthorsList: AuthorType[];
-	mockedCoursesList: CourseType[];
-};
-
-const CreateCourse: FC<CreateCourseProps> = ({
-	mockedAuthorsList,
-	mockedCoursesList,
-}) => {
+const CreateCourse: FC = () => {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	const [courseAuthorList, setCourseAuthorList] = useState<AuthorType[]>([]);
 	const [requiredAuthorList, setRequiredAuthorList] = useState(false);
-	const [authorList, setAuthorList] = useState(mockedAuthorsList);
 	const [title, setTitle] = useState('');
 	const [errorTitle, setErrorTitle] = useState('');
 	const [newAuthorName, setNewAuthorName] = useState('');
@@ -35,6 +37,13 @@ const CreateCourse: FC<CreateCourseProps> = ({
 	const [duration, setDuration] = useState('');
 	const [durationText, setDurationText] = useState('');
 	const [errorDuration, setErrorDuration] = useState('');
+	const authorList = useAppSelector(getAuthors);
+	const [renderedAuthorList, setRenderedAuthorList] =
+		useState<AuthorType[]>(authorList);
+
+	useEffect(() => {
+		setRenderedAuthorList(authorList);
+	}, [authorList]);
 
 	const onInput = (
 		e: ChangeEvent<HTMLTextAreaElement> | ChangeEvent<HTMLInputElement>,
@@ -76,19 +85,20 @@ const CreateCourse: FC<CreateCourseProps> = ({
 			};
 
 			setNewAuthorName('');
-			setAuthorList([...authorList, newAuthor]);
-			mockedAuthorsList.push(newAuthor);
+			dispatch(createAuthor(newAuthor));
 		}
 	};
 
 	const onAddAuthor = (obj: AuthorType) => {
 		setRequiredAuthorList(false);
 		setCourseAuthorList([...courseAuthorList, obj]);
-		setAuthorList(authorList.filter((item) => item.id !== obj.id));
+		setRenderedAuthorList(
+			renderedAuthorList.filter((item: AuthorType) => item.id !== obj.id)
+		);
 	};
 
 	const onDeleteAuthor = (obj: AuthorType) => {
-		setAuthorList([...authorList, obj]);
+		setRenderedAuthorList([...renderedAuthorList, obj]);
 		setCourseAuthorList(courseAuthorList.filter((item) => item.id !== obj.id));
 	};
 
@@ -110,7 +120,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 		}
 
 		if (courseAuthorList.length && title && description && +duration > 0) {
-			const newCourse = {
+			const newCourse: CourseType = {
 				id: uuid(),
 				title,
 				description,
@@ -119,7 +129,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 				authors: courseAuthorList.map((obj) => obj.id),
 			};
 
-			mockedCoursesList.push(newCourse);
+			dispatch(createCourse(newCourse));
 			navigate('/courses');
 		} else {
 			alert('Please, fill in all fields');
@@ -139,7 +149,7 @@ const CreateCourse: FC<CreateCourseProps> = ({
 						name='title'
 					/>
 				</div>
-				<Button onClick={onSubmit} buttonText='Create course' />
+				<Button onClick={onSubmit}>Create course</Button>
 			</div>
 			<div className={styles.description}>
 				<Textarea
@@ -168,21 +178,21 @@ const CreateCourse: FC<CreateCourseProps> = ({
 					<Button
 						disabled={Boolean(errorAuthorName)}
 						onClick={() => onCreateAuthor(newAuthorName)}
-						buttonText={CREATE_AUTHOR_BUTTON_TEXT}
-					/>
+					>
+						{CREATE_AUTHOR_BUTTON_TEXT}
+					</Button>
 				</div>
 				<div className={styles.author_list}>
 					<b>Authors</b>
 					<ul>
-						{authorList.length
-							? authorList.map((obj) => {
+						{renderedAuthorList.length
+							? renderedAuthorList.map((obj: AuthorType) => {
 									return (
 										<li key={obj.id}>
 											<div>{obj.name}</div>
-											<Button
-												buttonText='Add author'
-												onClick={() => onAddAuthor(obj)}
-											/>
+											<Button onClick={() => onAddAuthor(obj)}>
+												Add author
+											</Button>
 										</li>
 									);
 							  })
@@ -214,10 +224,9 @@ const CreateCourse: FC<CreateCourseProps> = ({
 									return (
 										<li key={obj.id}>
 											<div>{obj.name}</div>
-											<Button
-												buttonText='Delete author'
-												onClick={() => onDeleteAuthor(obj)}
-											/>
+											<Button onClick={() => onDeleteAuthor(obj)}>
+												Delete author
+											</Button>
 										</li>
 									);
 							  })

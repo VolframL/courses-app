@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { dateGenerator, pipeDuration, findAuthor } from 'helpers';
+import { dateGenerator, pipeDuration } from 'helpers';
 
 import styles from './CourseInfo.module.scss';
 import { CourseType } from 'types';
@@ -42,7 +42,7 @@ const CourseInfo: FC<CourseInfoProps> = ({ mockedCoursesList }) => {
 		return <div>Loading</div>;
 	}
 
-	const { title, duration, description, authors, id, creationDate } = course!;
+	const { title, duration, description, id, creationDate } = course!;
 
 	return (
 		<div className={styles.wrapper}>
@@ -67,9 +67,9 @@ const CourseInfo: FC<CourseInfoProps> = ({ mockedCoursesList }) => {
 						<div>
 							<b className={styles.authors}>Authors:</b>
 							<ul>
-								{findAuthor(authors).map((item) => (
+								{/* {findAuthor(authors).map((item) => (
 									<li key={item}>{item}</li>
-								))}
+								))} */}
 							</ul>
 						</div>
 					</div>

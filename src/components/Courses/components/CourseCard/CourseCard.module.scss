@@ -31,8 +31,26 @@
       margin-bottom: 15px;
     }
 
-    button {
-      align-self: center;
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+
+      svg {
+        height: 100%;
+      }
+
+      & button:nth-child(2) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      & button:last-child {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
+
   }
 }

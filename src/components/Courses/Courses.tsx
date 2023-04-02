@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'common/Button/Button';
@@ -6,48 +6,51 @@ import SearchBar from './components/SearchBar/SearchBar';
 import CourseCard from './components/CourseCard/CourseCard';
 
 import styles from './Courses.module.scss';
-import { CourseType } from 'types';
+import { AuthorType, CourseType } from 'types';
+import useCoursesService from 'services';
+import { setCourses } from 'store/courses/actionCreators';
+import { getAuthors, getCourses } from 'store/selectors';
+import { setAuthors } from 'store/authors/actionCreators';
+import { useAppDispatch, useAppSelector } from 'store/index';
 
-type CoursesProps = {
-	mockedCoursesList: CourseType[];
-};
+import { filterCourse } from 'helpers';
 
-const Courses: FC<CoursesProps> = ({ mockedCoursesList }) => {
+const Courses: FC = memo(() => {
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const { fetchAllCourses, fetchAllAuthors } = useCoursesService();
 	const [searchText, setSearchText] = useState('');
-	const [coursesList, setCoursesList] = useState(mockedCoursesList);
+	const coursesList: CourseType[] = useAppSelector(getCourses);
+	const authorList: AuthorType[] = useAppSelector(getAuthors);
+
+	const [filteresCourses, setFilteresCourses] = useState(coursesList);
+
+	console.log('courses render');
 
 	useEffect(() => {
-		navigate('/courses');
+		fetchAllCourses().then(({ result }) => dispatch(setCourses(result)));
+		fetchAllAuthors().then(({ result }) => dispatch(setAuthors(result)));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	useEffect(() => {
+		setFilteresCourses(coursesList);
+	}, [coursesList]);
+
 	const onSearch = (): boolean | void => {
-		setCoursesList(
-			coursesList.filter((course) => {
-				const searchByName = course.title
-					.toLowerCase()
-					.includes(searchText.toLowerCase());
-				if (searchByName) {
-					return searchByName;
-				}
-				const searchById = course.id
-					.toLowerCase()
-					.includes(searchText.toLowerCase());
-				if (searchById) {
-					return searchById;
-				}
-				return false;
-			})
-		);
+		setFilteresCourses(filterCourse(coursesList, searchText));
 	};
 
 	useEffect(() => {
 		if (searchText === '') {
-			setCoursesList(mockedCoursesList);
+			setFilteresCourses(coursesList);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [searchText]);
+
+	if (!authorList.length || !coursesList.length) {
+		return <div className={styles.wrapper}>Loading</div>;
+	}
 
 	return (
 		<div className={styles.wrapper}>
@@ -57,16 +60,12 @@ const Courses: FC<CoursesProps> = ({ mockedCoursesList }) => {
 					setSearchText={setSearchText}
 					searchText={searchText}
 				/>
-				<Button
-					onClick={() => navigate('/courses/add')}
-					buttonText='Add new course'
-				/>
+				<Button onClick={() => navigate('/courses/add')}>Add new course</Button>
 			</div>
-			{coursesList.map((course) => (
-				<CourseCard key={course.id} course={course} />
+			{filteresCourses.map((course) => (
+				<CourseCard key={course.id} course={course} authorList={authorList} />
 			))}
 		</div>
 	);
-};
-
+});
 export default Courses;

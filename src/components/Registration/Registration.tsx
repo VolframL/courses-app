@@ -5,11 +5,13 @@ import Input from 'common/Input/Input';
 import Button from 'common/Button/Button';
 
 import styles from './Registration.module.scss';
-import axios, { AxiosError } from 'utils/axios';
+import { AxiosError } from 'utils/axios';
+
+import useCoursesService from 'services';
 
 const Registration: FC = () => {
 	const navigate = useNavigate();
-
+	const { registration } = useCoursesService();
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -24,8 +26,7 @@ const Registration: FC = () => {
 		};
 
 		try {
-			await axios.post('/register', newUser);
-			navigate('/login');
+			registration(newUser).then(() => navigate('/login'));
 		} catch (error: AxiosError | unknown) {
 			const err: any = error as AxiosError;
 			if (err.toJSON().message === 'Network Error') {
@@ -66,11 +67,9 @@ const Registration: FC = () => {
 					placeholderText='Enter password'
 				/>
 				<div className={'error'}>{error}</div>
-				<Button
-					className={styles.button}
-					type='submit'
-					buttonText='Registration'
-				/>
+				<Button className={styles.button} type='submit'>
+					Registration
+				</Button>
 				<div>
 					If you have an account you can <Link to='/login'>Login</Link>
 				</div>
