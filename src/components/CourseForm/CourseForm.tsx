@@ -20,7 +20,7 @@ import { createAuthor } from 'store/authors/actionCreators';
 import { createCourse } from 'store/courses/actionCreators';
 import { useAppDispatch, useAppSelector } from 'store/index';
 
-import styles from './CreateCourse.module.scss';
+import styles from './CourseForm.module.scss';
 
 const CreateCourse: FC = () => {
 	const navigate = useNavigate();

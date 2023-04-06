@@ -1,11 +1,18 @@
 import { UserData } from 'types/types';
-import { USER_LOGIN, USER_LOGOUT } from './actionTypes';
+import { Types } from './actionTypes';
 
-export const login = (value: UserData) => ({
-	type: USER_LOGIN,
-	payload: value,
-});
+export const ActionCreators = {
+	login: (value: UserData) => ({
+		type: Types.LOGIN,
+		payload: value,
+	}),
 
-export const logout = () => ({
-	type: USER_LOGOUT,
-});
+	logout: () => ({
+		type: Types.LOGOUT,
+	}),
+
+	setRole: (value: string) => ({
+		type: Types.SET_ROLE,
+		payload: value,
+	}),
+};

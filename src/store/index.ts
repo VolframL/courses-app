@@ -1,5 +1,6 @@
-import { createStore, combineReducers, compose } from 'redux';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import ReduxThunk from 'redux-thunk';
 
 import { userReducer } from './user/reducer';
 import { coursesReducer } from './courses/reducer';
@@ -19,7 +20,10 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const store = createStore(rootReducer, composeEnhancers());
+export const store = createStore(
+	rootReducer,
+	compose(applyMiddleware(ReduxThunk), composeEnhancers())
+);
 
 export type RootState = ReturnType<typeof store.getState>;
 

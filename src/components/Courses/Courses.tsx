@@ -7,29 +7,18 @@ import CourseCard from './components/CourseCard/CourseCard';
 
 import styles from './Courses.module.scss';
 import { AuthorType, CourseType } from 'types';
-import useCoursesService from 'services';
-import { setCourses } from 'store/courses/actionCreators';
 import { getAuthors, getCourses } from 'store/selectors';
-import { setAuthors } from 'store/authors/actionCreators';
-import { useAppDispatch, useAppSelector } from 'store/index';
+import { useAppSelector } from 'store/index';
 
 import { filterCourse } from 'helpers';
 
 const Courses: FC = memo(() => {
-	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const { fetchAllCourses, fetchAllAuthors } = useCoursesService();
 	const [searchText, setSearchText] = useState('');
 	const coursesList: CourseType[] = useAppSelector(getCourses);
 	const authorList: AuthorType[] = useAppSelector(getAuthors);
 
 	const [filteresCourses, setFilteresCourses] = useState(coursesList);
-
-	useEffect(() => {
-		fetchAllCourses().then(({ result }) => dispatch(setCourses(result)));
-		fetchAllAuthors().then(({ result }) => dispatch(setAuthors(result)));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 
 	useEffect(() => {
 		setFilteresCourses(coursesList);

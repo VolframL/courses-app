@@ -16,6 +16,7 @@ export const getUserFromLocalStorage = (): UserState | null | undefined => {
 				name: user.user.name,
 				email: user.user.email,
 				token: user.result,
+				role: user.role,
 			};
 		} else {
 			return null;

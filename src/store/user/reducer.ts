@@ -1,12 +1,13 @@
 import { UserData, UserState } from 'types/types';
 import { getUserFromLocalStorage } from 'utils/getUserFromLocalStorage';
-import { USER_LOGIN, USER_LOGOUT } from './actionTypes';
+import { Types } from './actionTypes';
 
 const initialState: UserState = {
 	isAuth: false,
 	name: '',
 	email: '',
 	token: '',
+	role: '',
 };
 
 export const userReducer = (
@@ -14,7 +15,7 @@ export const userReducer = (
 	action: { type: string; payload?: UserData }
 ) => {
 	switch (action.type) {
-		case USER_LOGIN:
+		case Types.LOGIN:
 			return {
 				...state,
 				isAuth: true,
@@ -22,13 +23,19 @@ export const userReducer = (
 				email: action.payload?.user.email,
 				token: action.payload?.result,
 			};
-		case USER_LOGOUT:
+		case Types.LOGOUT:
 			return {
 				...state,
 				isAuth: false,
 				name: '',
 				email: '',
 				token: '',
+				role: '',
+			};
+		case Types.SET_ROLE:
+			return {
+				...state,
+				role: action.payload,
 			};
 		default:
 			return state;

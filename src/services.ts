@@ -17,11 +17,21 @@ const useCoursesService = () => {
 		return data;
 	};
 
+	const userMe = async (token: string) => {
+		const { data } = await axios.get('/users/me', {
+			headers: {
+				Authorization: token,
+			},
+		});
+		return data;
+	};
+
 	return {
 		postLogin,
 		registration,
 		fetchAllCourses,
 		fetchAllAuthors,
+		userMe,
 	};
 };
 
