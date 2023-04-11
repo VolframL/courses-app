@@ -1,6 +1,5 @@
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import React, { FC, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 import Header from 'components/Header/Header';
 import Courses from 'components/Courses/Courses';
@@ -9,66 +8,75 @@ import CourseForm from 'components/CourseForm/CourseForm';
 import Registration from 'components/Registration/Registration';
 import Login from 'components/Login/Login';
 import PrivateRouter from 'components/PrivateRouter/PrivateRouter';
-
-import { getUser } from 'store/selectors';
+import Page404 from 'components/Page404/Page404';
 
 import { mockedCoursesList } from './constants';
 
 import './App.scss';
-import useCoursesService from 'services';
-import { setAuthors } from 'store/authors/actionCreators';
-import { setCourses } from 'store/courses/actionCreators';
-import { useAppDispatch } from 'store/index';
+import { useAppDispatch, useAppSelector } from 'store/index';
+import { login } from 'store/user/reducer';
+import { fetchMe } from 'store/user/thunk';
+import { getUser } from 'store/selectors';
 
 const App: FC = () => {
 	const dispatch = useAppDispatch();
-	const { fetchAllCourses, fetchAllAuthors } = useCoursesService();
-
+	const { isAuth } = useAppSelector(getUser);
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
-	const user = useSelector(getUser);
+
+	const checkStorage = () => {
+		const localStorage = window.localStorage.getItem('courses');
+		if (!localStorage) {
+			pathname === '/' || pathname === '/courses'
+				? navigate('/login')
+				: navigate(pathname);
+		} else {
+			dispatch(login(JSON.parse(localStorage)));
+			const token = JSON.parse(localStorage).result;
+			dispatch(fetchMe(token)).then(() => {
+				pathname === '/' ? navigate('/courses') : navigate(pathname);
+			});
+		}
+	};
 
 	useEffect(() => {
-		fetchAllCourses().then(({ result }) => dispatch(setCourses(result)));
-		fetchAllAuthors().then(({ result }) => dispatch(setAuthors(result)));
+		if (!isAuth) {
+			checkStorage();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	useEffect(() => {
-		user.isAuth
-			? pathname === '/'
-				? navigate('/courses')
-				: navigate(pathname)
-			: navigate('/login');
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	if (!user.isAuth) {
-		return (
-			<div className={'app'}>
-				<Header />
-				<main className={'main'}>
-					<Routes>
-						<Route path='/login' element={<Login />} />
-						<Route path='/registration' element={<Registration />} />
-					</Routes>
-				</main>
-			</div>
-		);
-	}
+	}, [pathname]);
 
 	return (
 		<div className={'app'}>
 			<Header />
-			{/* <PrivateRouter> */}
+
 			<main className={'main'}>
 				<Routes>
-					<Route path='/courses' element={<Courses />} />
+					<Route path='/' element={<Courses />} />
+					<Route path='/login' element={<Login />} />
+					<Route path='/registration' element={<Registration />} />
+					<Route path='/courses' element={isAuth ? <Courses /> : <Login />} />
 					<Route
 						path='/courses/:courseId'
 						element={<CourseInfo mockedCoursesList={mockedCoursesList} />}
 					/>
-					<Route path='/courses/add' element={<CourseForm />} />
+					<Route
+						path='/courses/add'
+						element={
+							<PrivateRouter>
+								<CourseForm />
+							</PrivateRouter>
+						}
+					/>
+					<Route
+						path='/courses/update/:courseId'
+						element={
+							<PrivateRouter>
+								<CourseForm />
+							</PrivateRouter>
+						}
+					/>
+					<Route path='*' element={<Page404 />} />
 				</Routes>
 			</main>
 		</div>

@@ -1,31 +1,21 @@
-import { CourseType } from 'types/types';
-import {
-	CREATE_COURSE,
-	DELETE_COURSE,
-	GET_COURSES,
-	// UPDATE_COURSE,
-} from './actionTypes';
+import { createSlice } from '@reduxjs/toolkit';
+import { CourseType } from 'types';
 
-const initialState: never[] = [];
+const initialState: never[] | CourseType[] = [];
 
-export const coursesReducer = (
-	state: CourseType[] | never[] = initialState,
-	action: { type: string; payload: CourseType[] | CourseType | string }
-) => {
-	switch (action.type) {
-		case GET_COURSES:
-			return action.payload;
-		case DELETE_COURSE:
-			return (state = state.filter((course) => course.id !== action.payload));
-		case CREATE_COURSE:
-			return [...state, action.payload];
-		// case UPDATE_COURSE:
-		// 	const { id } = action.payload;
+export const coursesSlice = createSlice({
+	name: 'courses',
+	initialState,
+	reducers: {
+		//@ts-ignore
 
-		// 	const index = state.findIndex((course) => course.id === id);
+		setCourses: (state, { payload }) => (state = payload),
+		deleteCourse: (state, { payload }) =>
+			(state = state.filter((course) => course.id !== payload)),
+		addCourse: (state, { payload }) => (state = [...state, payload]),
+	},
+});
 
-		// 	return [...state, action.payload];
-		default:
-			return state;
-	}
-};
+export const { setCourses, deleteCourse, addCourse } = coursesSlice.actions;
+
+export default coursesSlice.reducer;

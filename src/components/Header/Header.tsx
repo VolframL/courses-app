@@ -6,19 +6,27 @@ import Button from 'common/Button/Button';
 
 import styles from './Header.module.scss';
 
-import { ActionCreators } from 'store/user/actionCreators';
 import { getUser } from 'store/selectors';
 import { useAppDispatch, useAppSelector } from 'store/index';
+import { logout } from 'store/user/reducer';
+import useCoursesService from 'services';
 
 const Header: FC = () => {
+	const { postLogout } = useCoursesService();
 	const user = useAppSelector(getUser);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	const onLogout = () => {
-		dispatch(ActionCreators.logout());
-		window.localStorage.removeItem('user');
-		navigate('/login');
+		postLogout(user.token)
+			.then(() => {
+				dispatch(logout());
+				window.localStorage.removeItem('courses');
+				navigate('/login');
+			})
+			.catch((e) => {
+				console.log('Error logout ' + e);
+			});
 	};
 
 	return (

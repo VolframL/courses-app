@@ -16,11 +16,11 @@ import { pipeDuration, validateMinLength } from 'helpers';
 import { CREATE_AUTHOR_BUTTON_TEXT } from '../../constants';
 import { CourseType, AuthorType } from 'types';
 import { getAuthors } from 'store/selectors';
-import { createAuthor } from 'store/authors/actionCreators';
-import { createCourse } from 'store/courses/actionCreators';
 import { useAppDispatch, useAppSelector } from 'store/index';
 
 import styles from './CourseForm.module.scss';
+import { addAuthor } from 'store/authors/reducer';
+import { addCourse } from 'store/courses/reducer';
 
 const CreateCourse: FC = () => {
 	const navigate = useNavigate();
@@ -85,7 +85,7 @@ const CreateCourse: FC = () => {
 			};
 
 			setNewAuthorName('');
-			dispatch(createAuthor(newAuthor));
+			dispatch(addAuthor(newAuthor));
 		}
 	};
 
@@ -129,7 +129,7 @@ const CreateCourse: FC = () => {
 				authors: courseAuthorList.map((obj) => obj.id),
 			};
 
-			dispatch(createCourse(newCourse));
+			dispatch(addCourse(newCourse));
 			navigate('/courses');
 		} else {
 			alert('Please, fill in all fields');

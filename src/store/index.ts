@@ -1,34 +1,27 @@
-import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import {
+	AnyAction,
+	Store,
+	ThunkDispatch,
+	configureStore,
+} from '@reduxjs/toolkit';
+import userReducer from './user/reducer';
+import coursesReducer from './courses/reducer';
+import authorsReducer from './authors/reducer';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import ReduxThunk from 'redux-thunk';
 
-import { userReducer } from './user/reducer';
-import { coursesReducer } from './courses/reducer';
-import { authorsReducer } from './authors/reducer';
-
-const rootReducer = combineReducers({
-	user: userReducer,
-	courses: coursesReducer,
-	authors: authorsReducer,
+export const store: Store = configureStore({
+	reducer: {
+		user: userReducer,
+		courses: coursesReducer,
+		authors: authorsReducer,
+	},
 });
-
-declare global {
-	interface Window {
-		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-	}
-}
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-export const store = createStore(
-	rootReducer,
-	compose(applyMiddleware(ReduxThunk), composeEnhancers())
-);
 
 export type RootState = ReturnType<typeof store.getState>;
 
-type AppDispatch = typeof store.dispatch;
-type DispatchFunc = () => AppDispatch;
+export type AppThunkDispatch = ThunkDispatch<RootState, any, AnyAction>;
 
-export const useAppDispatch: DispatchFunc = useDispatch;
+// type AppDispatch = typeof store.dispatch;
+// type DispatchFunc = () => AppDispatch;
+export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

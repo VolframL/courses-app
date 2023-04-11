@@ -2,28 +2,70 @@ import { UserData, LoginPayload, RegisterPayload } from 'types/types';
 import axios from './utils/axios';
 
 const useCoursesService = () => {
-	const postLogin = async (user: LoginPayload) =>
-		await axios.post<UserData>('/login', user);
+	const postLogin = async (user: LoginPayload) => {
+		try {
+			return await axios.post<UserData>('/login', user);
+		} catch (error) {
+			console.log(error);
+			throw error;
+		}
+	};
 
-	const registration = async (user: RegisterPayload) =>
-		await axios.post<UserData>('/register', user);
+	const postLogout = async (token: string) => {
+		try {
+			const { data } = await axios.delete('/logout', {
+				headers: {
+					Authorization: token,
+				},
+			});
+			return data;
+		} catch (error) {
+			console.log(error);
+			throw error;
+		}
+	};
+
+	const registration = async (user: RegisterPayload) => {
+		try {
+			return await axios.post<UserData>('/register', user);
+		} catch (error) {
+			console.log(error);
+			throw error;
+		}
+	};
 
 	const fetchAllCourses = async () => {
-		const { data } = await axios.get('/courses/all');
-		return data;
+		try {
+			const { data } = await axios.get('/courses/all');
+			return data;
+		} catch (error) {
+			console.log(error);
+			throw error;
+		}
 	};
+
 	const fetchAllAuthors = async () => {
-		const { data } = await axios.get('/authors/all');
-		return data;
+		try {
+			const { data } = await axios.get('/authors/all');
+			return data;
+		} catch (error) {
+			console.log(error);
+			throw error;
+		}
 	};
 
 	const userMe = async (token: string) => {
-		const { data } = await axios.get('/users/me', {
-			headers: {
-				Authorization: token,
-			},
-		});
-		return data;
+		try {
+			const { data } = await axios.get('/users/me', {
+				headers: {
+					Authorization: token,
+				},
+			});
+			return data;
+		} catch (error) {
+			console.log(error);
+			throw error;
+		}
 	};
 
 	return {
@@ -32,6 +74,7 @@ const useCoursesService = () => {
 		fetchAllCourses,
 		fetchAllAuthors,
 		userMe,
+		postLogout,
 	};
 };
 

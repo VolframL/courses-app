@@ -1,7 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import React, { FC, FormEvent, useEffect, useState } from 'react';
-
-import { AxiosError } from 'axios';
+import React, { FC, FormEvent, useState } from 'react';
 
 import Input from 'common/Input/Input';
 import Button from 'common/Button/Button';
@@ -9,16 +7,14 @@ import Button from 'common/Button/Button';
 import { ENGLISH } from '../../constants';
 
 import styles from './Login.module.scss';
-import { ActionCreators } from 'store/user/actionCreators';
 import useCoursesService from 'services';
-import { useAppDispatch, useAppSelector } from 'store/index';
-import { loginThunk } from 'store/user/thunk';
-import { getUser } from 'store/selectors';
+import { useAppDispatch } from 'store/index';
+import { login } from 'store/user/reducer';
+import { fetchMe } from 'store/user/thunk';
 
 const Login: FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const user = useAppSelector(getUser);
 
 	const { postLogin } = useCoursesService();
 
@@ -26,38 +22,29 @@ const Login: FC = () => {
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
 
-	useEffect(() => {
-		console.log(user);
-	}, [user]);
-
 	const onSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		const loginData = {
 			password,
 			email,
 		};
-
-		dispatch(loginThunk(loginData));
-		// try {
-		// 	postLogin(loginData)
-		// 		.then(({ data }) => {
-		// 			dispatch(ActionCreators.login(data));
-		// 			return data;
-		// 		})
-		// 		.then((data) =>
-		// 			window.localStorage.setItem('user', JSON.stringify(data))
-		// 		)
-		// 		.then(() => navigate('/courses'));
-		// } catch (error: AxiosError | unknown) {
-		// 	const err: any = error as AxiosError;
-		// 	if (err.toJSON().message === 'Network Error') {
-		// 		alert('No connection to the server, try again later');
-		// 	} else if (err.toJSON().status >= 400 && err.toJSON().status <= 499) {
-		// 		setError(err.response?.data?.result);
-		// 	} else {
-		// 		alert('Unknown error, please try again later');
-		// 	}
-		// }
+		postLogin(loginData)
+			.then(({ data }) => {
+				dispatch(login(data));
+				return data;
+			})
+			.then((data) => {
+				window.localStorage.setItem('courses', JSON.stringify(data));
+			})
+			.then(() => {
+				const localStorage = window.localStorage.getItem('courses');
+				if (localStorage) {
+					const token = JSON.parse(localStorage).result;
+					dispatch(fetchMe(token));
+				}
+			})
+			.then(() => navigate('/courses'))
+			.catch((e) => setError(e.message));
 	};
 
 	return (

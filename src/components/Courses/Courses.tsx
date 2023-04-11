@@ -7,18 +7,32 @@ import CourseCard from './components/CourseCard/CourseCard';
 
 import styles from './Courses.module.scss';
 import { AuthorType, CourseType } from 'types';
-import { getAuthors, getCourses } from 'store/selectors';
-import { useAppSelector } from 'store/index';
+import { getAuthors, getCourses, getUser } from 'store/selectors';
+import { useAppDispatch, useAppSelector } from 'store/index';
 
 import { filterCourse } from 'helpers';
+import { setCourses } from 'store/courses/reducer';
+import { setAuthors } from 'store/authors/reducer';
+import useCoursesService from 'services';
 
 const Courses: FC = memo(() => {
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [searchText, setSearchText] = useState('');
+	const { fetchAllCourses, fetchAllAuthors } = useCoursesService();
+	const { role } = useAppSelector(getUser);
+
 	const coursesList: CourseType[] = useAppSelector(getCourses);
 	const authorList: AuthorType[] = useAppSelector(getAuthors);
 
 	const [filteresCourses, setFilteresCourses] = useState(coursesList);
+
+	useEffect(() => {
+		fetchAllCourses().then(({ result }) => dispatch(setCourses(result)));
+		fetchAllAuthors().then(({ result }) => dispatch(setAuthors(result)));
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		setFilteresCourses(coursesList);
@@ -47,7 +61,11 @@ const Courses: FC = memo(() => {
 					setSearchText={setSearchText}
 					searchText={searchText}
 				/>
-				<Button onClick={() => navigate('/courses/add')}>Add new course</Button>
+				{role === 'admin' && (
+					<Button onClick={() => navigate('/courses/add')}>
+						Add new course
+					</Button>
+				)}
 			</div>
 			{filteresCourses.map((course) => (
 				<CourseCard key={course.id} course={course} authorList={authorList} />

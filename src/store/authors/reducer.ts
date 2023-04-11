@@ -1,18 +1,18 @@
-import { AuthorType } from 'types/types';
-import { GET_AUTHORS, CREATE_AUTHOR } from './actionTypes';
+import { createSlice } from '@reduxjs/toolkit';
+import { AuthorType } from 'types';
 
-const initialState: never[] = [];
+const initialState: never[] | AuthorType[] = [];
 
-export const authorsReducer = (
-	state: AuthorType[] | never[] = initialState,
-	action: { type: string; payload: AuthorType[] | AuthorType }
-) => {
-	switch (action.type) {
-		case GET_AUTHORS:
-			return action.payload;
-		case CREATE_AUTHOR:
-			return [...state, action.payload];
-		default:
-			return state;
-	}
-};
+export const authorsSlice = createSlice({
+	name: 'authors',
+	initialState,
+	reducers: {
+		//@ts-ignore
+		setAuthors: (state, { payload }) => (state = payload),
+		addAuthor: (state, { payload }) => (state = [...state, payload]),
+	},
+});
+
+export const { setAuthors, addAuthor } = authorsSlice.actions;
+
+export default authorsSlice.reducer;
