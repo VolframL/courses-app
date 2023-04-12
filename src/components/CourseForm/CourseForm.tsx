@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import React, {
 	FC,
 	ChangeEvent,
@@ -19,12 +19,15 @@ import { getAuthors } from 'store/selectors';
 import { useAppDispatch, useAppSelector } from 'store/index';
 
 import styles from './CourseForm.module.scss';
-import { addAuthor } from 'store/authors/reducer';
+// import { addAuthor } from 'store/authors/reducer';
 import { addCourse } from 'store/courses/reducer';
 
 const CreateCourse: FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const { courseId } = useParams();
+	//@ts-ignore
+	const isEdit = Boolean(courseId);
 
 	const [courseAuthorList, setCourseAuthorList] = useState<AuthorType[]>([]);
 	const [requiredAuthorList, setRequiredAuthorList] = useState(false);
