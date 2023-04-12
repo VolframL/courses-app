@@ -13,12 +13,11 @@ const useCoursesService = () => {
 
 	const postLogout = async (token: string) => {
 		try {
-			const { data } = await axios.delete('/logout', {
+			await axios.delete('/logout', {
 				headers: {
 					Authorization: token,
 				},
 			});
-			return data;
 		} catch (error) {
 			console.log(error);
 			throw error;
@@ -68,6 +67,20 @@ const useCoursesService = () => {
 		}
 	};
 
+	const deleteCourseById = async (token: string, id: string) => {
+		try {
+			const { data } = await axios.delete(`/courses/${id}`, {
+				headers: {
+					Authorization: token,
+				},
+			});
+			return data;
+		} catch (error) {
+			console.log(error);
+			throw error;
+		}
+	};
+
 	return {
 		postLogin,
 		registration,
@@ -75,6 +88,7 @@ const useCoursesService = () => {
 		fetchAllAuthors,
 		userMe,
 		postLogout,
+		deleteCourseById,
 	};
 };
 

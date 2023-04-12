@@ -11,7 +11,7 @@ import { ReactComponent as EditIcon } from 'assets/icons/edit.svg';
 import { ReactComponent as DeleteIcon } from 'assets/icons/delete.svg';
 
 import { useAppDispatch, useAppSelector } from 'store/index';
-import { deleteCourse } from 'store/courses/reducer';
+import { deleteCourse } from 'store/courses/thunk';
 import { getUser } from 'store/selectors';
 
 type CourseCardProps = {
@@ -26,7 +26,7 @@ const CourseCard: FC<CourseCardProps> = memo(
 	}) => {
 		const navigate = useNavigate();
 		const dispatch = useAppDispatch();
-		const { role } = useAppSelector(getUser);
+		const { role, token } = useAppSelector(getUser);
 
 		const onShowCourse = (id: string) => {
 			navigate(`/courses/${id}`);
@@ -60,7 +60,7 @@ const CourseCard: FC<CourseCardProps> = memo(
 								<Button onClick={() => {}}>
 									<EditIcon />
 								</Button>
-								<Button onClick={() => dispatch(deleteCourse(id))}>
+								<Button onClick={() => dispatch(deleteCourse({ token, id }))}>
 									<DeleteIcon />
 								</Button>
 							</>

@@ -32,7 +32,6 @@ export const userSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		//@ts-ignore
 		builder.addCase(fetchMe.fulfilled, (state, { payload }) => {
 			state.role = payload.result.role;
 		});
