@@ -43,3 +43,19 @@ export type UserState = {
 	token: string;
 	role: string;
 };
+
+export enum Status {
+	LOADING = 'loading',
+	SUCCESS = 'success',
+	ERROR = 'error',
+}
+
+export interface CoursesSliceState {
+	items: CourseType[];
+	status: Status;
+}
+
+export interface AuthorsSliceState {
+	items: AuthorType[];
+	status: Status;
+}

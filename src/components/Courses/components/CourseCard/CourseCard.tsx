@@ -57,7 +57,7 @@ const CourseCard: FC<CourseCardProps> = memo(
 						<Button onClick={() => onShowCourse(id)}>Show course</Button>
 						{role === 'admin' && (
 							<>
-								<Button onClick={() => {}}>
+								<Button onClick={() => navigate(`/courses/update/${id}`)}>
 									<EditIcon />
 								</Button>
 								<Button onClick={() => dispatch(deleteCourse({ token, id }))}>
