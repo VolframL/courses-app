@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router';
 
-import Logo from './components/Logo/Logo';
-import Button from 'common/Button/Button';
+import Logo from './components/Logo';
+import Button from 'common/Button';
 
 import styles from './Header.module.scss';
 

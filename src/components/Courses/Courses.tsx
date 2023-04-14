@@ -1,9 +1,9 @@
 import React, { FC, useState, useEffect, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Button from 'common/Button/Button';
-import SearchBar from './components/SearchBar/SearchBar';
-import CourseCard from './components/CourseCard/CourseCard';
+import Button from 'common/Button';
+import SearchBar from './components/SearchBar';
+import CourseCard from './components/CourseCard';
 
 import styles from './Courses.module.scss';
 import { AuthorType, CourseType } from 'types';

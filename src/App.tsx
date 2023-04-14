@@ -1,14 +1,14 @@
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import React, { FC, useEffect } from 'react';
 
-import Header from 'components/Header/Header';
-import Courses from 'components/Courses/Courses';
-import CourseInfo from 'components/CourseInfo/CourseInfo';
-import CourseForm from 'components/CourseForm/CourseForm';
-import Registration from 'components/Registration/Registration';
-import Login from 'components/Login/Login';
-import PrivateRouter from 'components/PrivateRouter/PrivateRouter';
-import Page404 from 'components/Page404/Page404';
+import Header from 'components/Header';
+import Courses from 'components/Courses';
+import CourseInfo from 'components/CourseInfo';
+import CourseForm from 'components/CourseForm';
+import Registration from 'components/Registration';
+import Login from 'components/Login';
+import PrivateRouter from 'components/PrivateRouter';
+import Page404 from 'components/Page404';
 
 import { mockedCoursesList } from './constants';
 

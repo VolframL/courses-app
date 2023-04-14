@@ -8,9 +8,9 @@ import React, {
 } from 'react';
 import { v4 as uuid } from 'uuid';
 
-import Button from 'common/Button/Button';
-import Input from 'common/Input/Input';
-import Textarea from 'common/Textarea/Textarea';
+import Button from 'common/Button';
+import Input from 'common/Input';
+import Textarea from 'common/Textarea';
 
 import { pipeDuration, validateMinLength } from 'helpers';
 import { CREATE_AUTHOR_BUTTON_TEXT } from '../../constants';

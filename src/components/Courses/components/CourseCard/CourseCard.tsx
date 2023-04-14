@@ -1,7 +1,7 @@
 import React, { FC, memo } from 'react';
 import { useNavigate } from 'react-router';
 
-import Button from 'common/Button/Button';
+import Button from 'common/Button';
 
 import { dateGenerator, pipeDuration, findAuthor } from 'helpers';
 
