@@ -67,7 +67,7 @@ const CourseInfo: FC<CourseInfoProps> = ({ mockedCoursesList }) => {
 						<div>
 							<b className={styles.authors}>Authors:</b>
 							<ul>
-								{/* {findAuthor(authors).map((item) => (
+								{/* {getAuthorsListStr(authors).map((item) => (
 									<li key={item}>{item}</li>
 								))} */}
 							</ul>

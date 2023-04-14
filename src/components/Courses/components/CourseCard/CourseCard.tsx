@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 
 import Button from 'common/Button';
 
-import { dateGenerator, pipeDuration, findAuthor } from 'helpers';
+import { dateGenerator, pipeDuration, getAuthorsListStr } from 'helpers';
 
 import styles from './CourseCard.module.scss';
 import { CourseType, AuthorType } from 'types';
@@ -42,7 +42,7 @@ const CourseCard: FC<CourseCardProps> = memo(
 					<div>
 						<span>
 							<b>Authors: </b>
-							{findAuthor(authors, authorList).join(', ')}
+							{getAuthorsListStr(authors, authorList)}
 						</span>
 					</div>
 					<div>

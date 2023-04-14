@@ -1,5 +1,5 @@
 export * from './dateGenerator';
-export * from './findAuthor';
+export * from './getAuthorsListStr';
 export * from './pipeDuration';
 export * from './validateMinLength';
 export * from './filterCourse';
