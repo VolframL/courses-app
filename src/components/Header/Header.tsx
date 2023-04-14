@@ -6,19 +6,22 @@ import Button from 'common/Button';
 
 import styles from './Header.module.scss';
 
-import { getUser } from 'store/selectors';
-import { useAppDispatch, useAppSelector } from 'store/index';
+import { useAppDispatch } from 'store/index';
 import { logout } from 'store/user/reducer';
 import useCoursesService from 'services';
 
-const Header: FC = () => {
+type HeaderProps = {
+	userName: string;
+	token: string;
+};
+
+const Header: FC<HeaderProps> = ({ userName, token }) => {
 	const { postLogout } = useCoursesService();
-	const user = useAppSelector(getUser);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	const onLogout = () => {
-		postLogout(user.token)
+		postLogout(token)
 			.then(() => {
 				dispatch(logout());
 				window.localStorage.removeItem('courses');
@@ -33,8 +36,8 @@ const Header: FC = () => {
 		<header className={styles.wrapper}>
 			<Logo />
 			<div className={styles.controls}>
-				<div className={styles.userName}>{user.name}</div>
-				{user.isAuth && <Button onClick={onLogout}>Logout</Button>}
+				<div className={styles.userName}>{userName}</div>
+				{token && <Button onClick={onLogout}>Logout</Button>}
 			</div>
 		</header>
 	);

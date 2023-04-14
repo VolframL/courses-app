@@ -20,9 +20,10 @@ import { getUser } from 'store/selectors';
 
 const App: FC = () => {
 	const dispatch = useAppDispatch();
-	const { isAuth } = useAppSelector(getUser);
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
+
+	const { isAuth, role, token, name } = useAppSelector(getUser);
 
 	const checkStorage = () => {
 		const localStorage = window.localStorage.getItem('courses');
@@ -48,7 +49,7 @@ const App: FC = () => {
 
 	return (
 		<div className={'app'}>
-			<Header />
+			<Header userName={name} token={token} />
 
 			<main className={'main'}>
 				<Routes>
