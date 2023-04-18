@@ -30,7 +30,6 @@ const Courses: FC = memo(() => {
 	useEffect(() => {
 		fetchAllCourses().then(({ result }) => dispatch(setCourses(result)));
 		fetchAllAuthors().then(({ result }) => dispatch(setAuthors(result)));
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

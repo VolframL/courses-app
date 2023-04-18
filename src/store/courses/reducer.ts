@@ -8,8 +8,7 @@ export const coursesSlice = createSlice({
 	name: 'courses',
 	initialState,
 	reducers: {
-		//@ts-ignore
-		setCourses: (state, { payload }) => (state = payload),
+		setCourses: (_state, { payload }) => (_state = payload),
 		// deleteCourse: (state, { payload }) =>
 		// 	(state = state.filter((course) => course.id !== payload)),
 		addCourse: (state, { payload }) => (state = [...state, payload]),

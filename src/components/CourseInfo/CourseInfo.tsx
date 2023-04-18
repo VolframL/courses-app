@@ -22,61 +22,49 @@ const CourseInfo: FC<CourseInfoProps> = ({ mockedCoursesList }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	// useEffect(() => {
-	// 	try {
-	// 		fetchCourse();
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		alert('Failed to get course');
-	// 	}
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, []);
-
-	// const fetchCourse = async () => {
-	// 	const { data } = await axios.get(`/courses/${courseId}`);
-	// 	setCourse(data.result);
-	// 	setLoading(false);
-	// };
-
-	if (loading) {
-		return <div>Loading</div>;
+	if (!loading && !course) {
+		return <div>Course is not found</div>;
 	}
 
-	const { title, duration, description, id, creationDate } = course!;
-
-	return (
-		<div className={styles.wrapper}>
-			<Link to='/courses'>{'<'} Back to courses</Link>
-			<div className={styles.course}>
-				<h2>{title}</h2>
-				<div className={styles.description}>
-					<p>{description}</p>
-					<div className={styles.course_info}>
-						<div>
-							<b>ID: </b>
-							{id}
-						</div>
-						<div>
-							<b>Duration: </b>
-							{pipeDuration(duration)}
-						</div>
-						<div>
-							<b>Created: </b>
-							{dateGenerator(creationDate)}
-						</div>
-						<div>
-							<b className={styles.authors}>Authors:</b>
-							<ul>
-								{/* {getAuthorsListStr(authors).map((item) => (
-									<li key={item}>{item}</li>
-								))} */}
-							</ul>
+	if (!loading && course) {
+		const { title, duration, description, id, creationDate } = course;
+		console.log(course);
+		return (
+			<div className={styles.wrapper}>
+				<Link to='/courses'>{'<'} Back to courses</Link>
+				<div className={styles.course}>
+					<h2>{title}</h2>
+					<div className={styles.description}>
+						<p>{description}</p>
+						<div className={styles.course_info}>
+							<div>
+								<b>ID: </b>
+								{id}
+							</div>
+							<div>
+								<b>Duration: </b>
+								{pipeDuration(duration)}
+							</div>
+							<div>
+								<b>Created: </b>
+								{dateGenerator(creationDate)}
+							</div>
+							<div>
+								<b className={styles.authors}>Authors:</b>
+								<ul>
+									{/* {getAuthorsListArr(authors, ).map((item) => (
+										<li key={item}>{item}</li>
+									))} */}
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	);
+		);
+	} else {
+		return <div>Loading</div>;
+	}
 };
 
 export default CourseInfo;

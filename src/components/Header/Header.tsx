@@ -1,46 +1,23 @@
 import React, { FC } from 'react';
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import Logo from './components/Logo';
 import Button from 'common/Button';
 
 import styles from './Header.module.scss';
 
-import { useAppDispatch } from 'store/index';
-import { logout } from 'store/user/reducer';
-import useCoursesService from 'services';
+import { HeaderProps } from 'types';
 
-type HeaderProps = {
-	userName: string;
-	token: string;
-};
-
-const Header: FC<HeaderProps> = ({ userName, token }) => {
-	const { postLogout } = useCoursesService();
-	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
-
-	const onLogout = () => {
-		postLogout(token)
-			.then(() => {
-				dispatch(logout());
-				window.localStorage.removeItem('courses');
-				navigate('/login');
-			})
-			.catch((e) => {
-				console.log('Error logout ' + e);
-			});
-	};
-
-	return (
-		<header className={styles.wrapper}>
+const Header: FC<HeaderProps> = ({ userName, token, onLogout }) => (
+	<header className={styles.wrapper}>
+		<Link to={'/'}>
 			<Logo />
-			<div className={styles.controls}>
-				<div className={styles.userName}>{userName}</div>
-				{token && <Button onClick={onLogout}>Logout</Button>}
-			</div>
-		</header>
-	);
-};
+		</Link>
+		<div className={styles.controls}>
+			<div className={styles.userName}>{userName}</div>
+			{token && <Button onClick={onLogout}>Logout</Button>}
+		</div>
+	</header>
+);
 
 export default Header;

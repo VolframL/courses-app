@@ -8,7 +8,6 @@ import userReducer from './user/reducer';
 import coursesReducer from './courses/reducer';
 import authorsReducer from './authors/reducer';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-
 export const store: Store = configureStore({
 	reducer: {
 		user: userReducer,
@@ -17,11 +16,21 @@ export const store: Store = configureStore({
 	},
 });
 
+store.subscribe(() => {
+	const localStorageToken = window.localStorage.getItem('token');
+	const reduxToken = store.getState().user.token;
+	if (reduxToken) {
+		if (localStorageToken !== reduxToken) {
+			window.localStorage.setItem('token', reduxToken);
+		}
+	} else if (!reduxToken) {
+		window.localStorage.removeItem('token');
+	}
+});
+
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppThunkDispatch = ThunkDispatch<RootState, any, AnyAction>;
 
-// type AppDispatch = typeof store.dispatch;
-// type DispatchFunc = () => AppDispatch;
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

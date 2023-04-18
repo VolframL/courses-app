@@ -43,3 +43,9 @@ export type UserState = {
 	token: string;
 	role: string;
 };
+
+export type HeaderProps = {
+	userName: string;
+	token: string;
+	onLogout: () => void;
+};

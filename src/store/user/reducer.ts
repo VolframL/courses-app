@@ -17,9 +17,7 @@ export const userSlice = createSlice({
 	reducers: {
 		login: (state, { payload }) => {
 			state.isAuth = true;
-			state.name = payload.user.name;
-			state.email = payload.user.email;
-			state.token = payload.result;
+			state.token = payload;
 		},
 		logout: (state) => {
 			state.isAuth = false;
@@ -33,6 +31,8 @@ export const userSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchMe.fulfilled, (state, { payload }) => {
+			state.name = payload.result.name;
+			state.email = payload.result.email;
 			state.role = payload.result.role;
 		});
 	},

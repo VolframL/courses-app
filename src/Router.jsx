@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Courses from 'components/Courses';
@@ -12,8 +13,13 @@ import { mockedCoursesList } from './constants';
 
 import { useAppDispatch, useAppSelector } from 'store/index';
 import { getUser } from 'store/selectors';
+import { login } from 'store/user/reducer';
+import { fetchMe } from 'store/user/thunk';
 
 const Router = () => {
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
 	const { pathname } = useLocation();
 
 	const { isAuth, token, name } = useAppSelector(getUser);
