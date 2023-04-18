@@ -24,9 +24,7 @@ export const userSlice = createSlice({
 			state.name = '';
 			state.email = '';
 			state.token = '';
-		},
-		setRole: (state, { payload }) => {
-			state.role = payload;
+			state.role = '';
 		},
 	},
 	extraReducers: (builder) => {
@@ -38,6 +36,6 @@ export const userSlice = createSlice({
 	},
 });
 
-export const { login, logout, setRole } = userSlice.actions;
+export const { login, logout } = userSlice.actions;
 
 export default userSlice.reducer;

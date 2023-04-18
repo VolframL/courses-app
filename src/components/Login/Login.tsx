@@ -10,6 +10,7 @@ import styles from './Login.module.scss';
 import useCoursesService from 'services';
 import { useAppDispatch } from 'store/index';
 import { login } from 'store/user/reducer';
+import { fetchMe } from 'store/user/thunk';
 
 const Login: FC = () => {
 	const dispatch = useAppDispatch();
@@ -29,9 +30,11 @@ const Login: FC = () => {
 		};
 		postLogin(loginData)
 			.then(({ data }) => {
-				dispatch(login(data.result));
-				return data;
+				const token = data.result;
+				dispatch(login(token));
+				return token;
 			})
+			.then((token) => dispatch(fetchMe(token)))
 			.then(() => navigate('/courses'))
 			.catch((e) => setError(e.message));
 	};

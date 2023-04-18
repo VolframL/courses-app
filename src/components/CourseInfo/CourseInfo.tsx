@@ -23,7 +23,12 @@ const CourseInfo: FC<CourseInfoProps> = ({ mockedCoursesList }) => {
 	}, []);
 
 	if (!loading && !course) {
-		return <div>Course is not found</div>;
+		return (
+			<div>
+				<div>Course is not found</div>
+				<Link to='/courses'>{'<'} Back to courses</Link>
+			</div>
+		);
 	}
 
 	if (!loading && course) {

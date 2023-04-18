@@ -19,20 +19,8 @@ import { fetchMe } from 'store/user/thunk';
 const Router = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-
 	const { pathname } = useLocation();
-
-	const { isAuth, token, name } = useAppSelector(getUser);
-
-	useEffect(() => {
-		if (!isAuth) {
-			checkStorage();
-		} else if (isAuth) {
-			pathname === '/' ? navigate('/courses') : navigate(pathname);
-		}
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [pathname]);
+	const { isAuth } = useAppSelector(getUser);
 
 	const checkStorage = () => {
 		const token = window.localStorage.getItem('token');
@@ -47,6 +35,15 @@ const Router = () => {
 			});
 		}
 	};
+
+	useEffect(() => {
+		if (!isAuth) {
+			checkStorage();
+		} else if (isAuth) {
+			pathname === '/' ? navigate('/courses') : navigate(pathname);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [pathname]);
 
 	return (
 		<Routes>
