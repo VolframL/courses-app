@@ -5,6 +5,7 @@ import Input from 'common/Input';
 import Button from 'common/Button';
 
 import { ENGLISH } from '../../constants';
+import url from 'urls';
 
 import styles from './Login.module.scss';
 import useCoursesService from 'services';
@@ -35,7 +36,7 @@ const Login: FC = () => {
 				return token;
 			})
 			.then((token) => dispatch(fetchMe(token)))
-			.then(() => navigate('/courses'))
+			.then(() => navigate(url.courses))
 			.catch((e) => setError(e.message));
 	};
 
@@ -61,7 +62,7 @@ const Login: FC = () => {
 				<Button type='submit'>{ENGLISH.BUTTON.LOGIN}</Button>
 				<div>
 					{ENGLISH.TEXT.LOGIN_PAGE}
-					<Link to='/registration'> {ENGLISH.BUTTON.REGISTRATION}</Link>
+					<Link to={url.registration}> {ENGLISH.BUTTON.REGISTRATION}</Link>
 				</div>
 			</form>
 		</div>

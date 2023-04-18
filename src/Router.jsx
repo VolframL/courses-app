@@ -20,7 +20,7 @@ const Router = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
-	const { isAuth } = useAppSelector(getUser);
+	const { isAuth, role, token } = useAppSelector(getUser);
 
 	const checkStorage = () => {
 		const token = window.localStorage.getItem('token');
@@ -47,10 +47,13 @@ const Router = () => {
 
 	return (
 		<Routes>
-			<Route path='/' element={<Courses />} />
+			<Route path='/' element={<Courses role={role} token={token} />} />
 			<Route path='/login' element={<Login />} />
 			<Route path='/registration' element={<Registration />} />
-			<Route path='/courses' element={isAuth ? <Courses /> : <Login />} />
+			<Route
+				path='/courses'
+				element={isAuth ? <Courses role={role} token={token} /> : <Login />}
+			/>
 			<Route
 				path='/courses/:courseId'
 				element={<CourseInfo mockedCoursesList={mockedCoursesList} />}

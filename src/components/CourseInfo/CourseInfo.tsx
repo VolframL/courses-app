@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { dateGenerator, pipeDuration } from 'helpers';
+import url from 'urls';
 
 import styles from './CourseInfo.module.scss';
 import { CourseType } from 'types';
@@ -26,17 +27,16 @@ const CourseInfo: FC<CourseInfoProps> = ({ mockedCoursesList }) => {
 		return (
 			<div>
 				<div>Course is not found</div>
-				<Link to='/courses'>{'<'} Back to courses</Link>
+				<Link to={url.courses}>{'<'} Back to courses</Link>
 			</div>
 		);
 	}
 
 	if (!loading && course) {
 		const { title, duration, description, id, creationDate } = course;
-		console.log(course);
 		return (
 			<div className={styles.wrapper}>
-				<Link to='/courses'>{'<'} Back to courses</Link>
+				<Link to={url.courses}>{'<'} Back to courses</Link>
 				<div className={styles.course}>
 					<h2>{title}</h2>
 					<div className={styles.description}>

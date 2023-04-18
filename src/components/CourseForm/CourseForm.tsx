@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import React, {
 	FC,
 	ChangeEvent,
@@ -17,12 +17,14 @@ import { CREATE_AUTHOR_BUTTON_TEXT } from '../../constants';
 import { CourseType, AuthorType } from 'types';
 import { getAuthors } from 'store/selectors';
 import { useAppDispatch, useAppSelector } from 'store/index';
+import url from 'urls';
 
 import styles from './CourseForm.module.scss';
 import { addAuthor } from 'store/authors/reducer';
 import { addCourse } from 'store/courses/reducer';
 
 const CreateCourse: FC = () => {
+	const { courseId } = useParams();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
@@ -44,6 +46,13 @@ const CreateCourse: FC = () => {
 	useEffect(() => {
 		setRenderedAuthorList(authorList);
 	}, [authorList]);
+
+	useEffect(() => {
+		if (courseId) {
+			console.log('courseId');
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const onInput = (
 		e: ChangeEvent<HTMLTextAreaElement> | ChangeEvent<HTMLInputElement>,
@@ -130,7 +139,7 @@ const CreateCourse: FC = () => {
 			};
 
 			dispatch(addCourse(newCourse));
-			navigate('/courses');
+			navigate(url.courses);
 		} else {
 			alert('Please, fill in all fields');
 		}

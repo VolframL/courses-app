@@ -6,21 +6,21 @@ import SearchBar from './components/SearchBar';
 import CourseCard from './components/CourseCard';
 
 import styles from './Courses.module.scss';
-import { AuthorType, CourseType } from 'types';
-import { getAuthors, getCourses, getUser } from 'store/selectors';
+import { AuthorType, CourseType, CoursesProps } from 'types';
+import { getAuthors, getCourses } from 'store/selectors';
 import { useAppDispatch, useAppSelector } from 'store/index';
 
+import url from 'urls';
 import { filterCourse } from 'helpers';
 import { setCourses } from 'store/courses/reducer';
 import { setAuthors } from 'store/authors/reducer';
 import useCoursesService from 'services';
 
-const Courses: FC = memo(() => {
+const Courses: FC<CoursesProps> = memo(({ role, token }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [searchText, setSearchText] = useState('');
 	const { fetchAllCourses, fetchAllAuthors } = useCoursesService();
-	const { role } = useAppSelector(getUser);
 
 	const coursesList: CourseType[] = useAppSelector(getCourses);
 	const authorList: AuthorType[] = useAppSelector(getAuthors);
@@ -61,13 +61,19 @@ const Courses: FC = memo(() => {
 					searchText={searchText}
 				/>
 				{role === 'admin' && (
-					<Button onClick={() => navigate('/courses/add')}>
+					<Button onClick={() => navigate(url.courseAdd)}>
 						Add new course
 					</Button>
 				)}
 			</div>
 			{filteresCourses.map((course) => (
-				<CourseCard key={course.id} course={course} authorList={authorList} />
+				<CourseCard
+					role={role}
+					token={token}
+					key={course.id}
+					course={course}
+					authorList={authorList}
+				/>
 			))}
 		</div>
 	);

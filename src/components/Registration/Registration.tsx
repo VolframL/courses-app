@@ -6,6 +6,7 @@ import Button from 'common/Button';
 
 import styles from './Registration.module.scss';
 import { AxiosError } from 'utils/axios';
+import url from 'urls';
 
 import useCoursesService from 'services';
 
@@ -71,7 +72,7 @@ const Registration: FC = () => {
 					Registration
 				</Button>
 				<div>
-					If you have an account you can <Link to='/login'>Login</Link>
+					If you have an account you can <Link to={url.login}>Login</Link>
 				</div>
 			</form>
 		</div>

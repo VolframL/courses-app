@@ -49,3 +49,15 @@ export type HeaderProps = {
 	token: string;
 	onLogout: () => void;
 };
+
+export type CoursesProps = {
+	role: string;
+	token: string;
+};
+
+export type CourseCardProps = {
+	course: CourseType;
+	authorList: AuthorType[];
+	role: string;
+	token: string;
+};
