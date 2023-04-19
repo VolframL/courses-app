@@ -1,5 +1,11 @@
-import { UserData, LoginPayload, RegisterPayload } from 'types/types';
+import {
+	UserData,
+	LoginPayload,
+	RegisterPayload,
+	CourseToPost,
+} from 'types/types';
 import axios from './utils/axios';
+import url from 'urls';
 
 const useCoursesService = () => {
 	const postLogin = async (user: LoginPayload) => {
@@ -43,6 +49,9 @@ const useCoursesService = () => {
 		}
 	};
 
+	const fetchCourseById = async (id: string) =>
+		await axios.get(`/courses/${id}`);
+
 	const fetchAllAuthors = async () => {
 		try {
 			const { data } = await axios.get('/authors/all');
@@ -81,14 +90,56 @@ const useCoursesService = () => {
 		}
 	};
 
+	const createCourse = async (token: string, data: CourseToPost) => {
+		try {
+			return await axios.post(url.courseAdd, data, {
+				headers: {
+					Authorization: token,
+				},
+			});
+		} catch (error) {
+			console.log(error);
+			throw error;
+		}
+	};
+
+	const deleteAuthorById = async (token: string, id: string) => {
+		try {
+			const { data } = await axios.delete(`/authors/${id}`, {
+				headers: {
+					Authorization: token,
+				},
+			});
+			return data;
+		} catch (error) {
+			console.log(error);
+			throw error;
+		}
+	};
+
+	const createAuthor = async (token: string, name: string) =>
+		await axios.post(
+			'/authors/add',
+			{ name },
+			{
+				headers: {
+					Authorization: token,
+				},
+			}
+		);
+
 	return {
 		postLogin,
 		registration,
 		fetchAllCourses,
+		fetchCourseById,
 		fetchAllAuthors,
 		userMe,
 		postLogout,
 		deleteCourseById,
+		createCourse,
+		createAuthor,
+		deleteAuthorById,
 	};
 };
 

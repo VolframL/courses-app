@@ -8,7 +8,7 @@ const PrivateRouter = ({ children }: { children: JSX.Element }) => {
 	const role = useAppSelector(getRole);
 
 	if (role === 'admin') {
-		return <div>{children}</div>;
+		return <>{children}</>;
 	} else {
 		return <Navigate to={url.courses} replace={true} />;
 	}

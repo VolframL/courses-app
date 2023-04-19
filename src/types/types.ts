@@ -7,6 +7,13 @@ export type CourseType = {
 	authors: string[];
 };
 
+export type CourseToPost = {
+	title: string;
+	description: string;
+	duration: number;
+	authors: string[];
+};
+
 export type AuthorType = {
 	id: string;
 	name: string;

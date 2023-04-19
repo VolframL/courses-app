@@ -1,25 +1,35 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { dateGenerator, pipeDuration } from 'helpers';
+import { dateGenerator, getAuthorsListArr, pipeDuration } from 'helpers';
 import url from 'urls';
 
 import styles from './CourseInfo.module.scss';
-import { CourseType } from 'types';
+import { AuthorType, CourseType } from 'types';
+import useCoursesService from 'services';
+import { useAppSelector } from 'store';
+import { getAuthors } from 'store/selectors';
 
-type CourseInfoProps = {
-	mockedCoursesList: CourseType[];
-};
-
-const CourseInfo: FC<CourseInfoProps> = ({ mockedCoursesList }) => {
+const CourseInfo: FC = () => {
 	const { courseId } = useParams();
 
 	const [course, setCourse] = useState<CourseType>();
 	const [loading, setLoading] = useState(true);
 
+	const authorList: AuthorType[] = useAppSelector(getAuthors);
+
+	const { fetchCourseById } = useCoursesService();
+
 	useEffect(() => {
-		setCourse(mockedCoursesList.filter((item) => item.id === courseId)[0]);
-		setLoading(false);
+		if (courseId) {
+			fetchCourseById(courseId)
+				.then(({ data }) => {
+					setCourse(data.result);
+					console.log(authorList);
+				})
+				.catch((e) => console.log(e))
+				.finally(() => setLoading(false));
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -33,7 +43,7 @@ const CourseInfo: FC<CourseInfoProps> = ({ mockedCoursesList }) => {
 	}
 
 	if (!loading && course) {
-		const { title, duration, description, id, creationDate } = course;
+		const { title, duration, description, id, creationDate, authors } = course;
 		return (
 			<div className={styles.wrapper}>
 				<Link to={url.courses}>{'<'} Back to courses</Link>
@@ -57,9 +67,9 @@ const CourseInfo: FC<CourseInfoProps> = ({ mockedCoursesList }) => {
 							<div>
 								<b className={styles.authors}>Authors:</b>
 								<ul>
-									{/* {getAuthorsListArr(authors, ).map((item) => (
+									{getAuthorsListArr(authors, authorList).map((item) => (
 										<li key={item}>{item}</li>
-									))} */}
+									))}
 								</ul>
 							</div>
 						</div>

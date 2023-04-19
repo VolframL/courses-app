@@ -14,6 +14,10 @@ export const store: Store = configureStore({
 		courses: coursesReducer,
 		authors: authorsReducer,
 	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: false,
+		}),
 });
 
 store.subscribe(() => {

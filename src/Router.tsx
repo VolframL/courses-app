@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Courses from 'components/Courses';
@@ -8,8 +8,6 @@ import Registration from 'components/Registration';
 import Login from 'components/Login';
 import PrivateRouter from 'components/PrivateRouter';
 import Page404 from 'components/Page404';
-
-import { mockedCoursesList } from './constants';
 
 import { useAppDispatch, useAppSelector } from 'store/index';
 import { getUser } from 'store/selectors';
@@ -54,15 +52,12 @@ const Router = () => {
 				path='/courses'
 				element={isAuth ? <Courses role={role} token={token} /> : <Login />}
 			/>
-			<Route
-				path='/courses/:courseId'
-				element={<CourseInfo mockedCoursesList={mockedCoursesList} />}
-			/>
+			<Route path='/courses/:courseId' element={<CourseInfo />} />
 			<Route
 				path='/courses/add'
 				element={
 					<PrivateRouter>
-						<CourseForm />
+						<CourseForm token={token} />
 					</PrivateRouter>
 				}
 			/>
@@ -70,7 +65,7 @@ const Router = () => {
 				path='/courses/update/:courseId'
 				element={
 					<PrivateRouter>
-						<CourseForm />
+						<CourseForm token={token} />
 					</PrivateRouter>
 				}
 			/>

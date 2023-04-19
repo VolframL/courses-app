@@ -9,3 +9,7 @@
 добавить авторов в компонент courseinfo
 
 precomit хук
+
+async добавить url
+
+axios errors

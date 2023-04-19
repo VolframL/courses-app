@@ -13,14 +13,14 @@ import { useAppDispatch, useAppSelector } from 'store/index';
 import url from 'urls';
 import { filterCourse } from 'helpers';
 import { setCourses } from 'store/courses/reducer';
-import { setAuthors } from 'store/authors/reducer';
+import { setAuthors } from 'store/authors/thunk';
 import useCoursesService from 'services';
 
 const Courses: FC<CoursesProps> = memo(({ role, token }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [searchText, setSearchText] = useState('');
-	const { fetchAllCourses, fetchAllAuthors } = useCoursesService();
+	const { fetchAllCourses } = useCoursesService();
 
 	const coursesList: CourseType[] = useAppSelector(getCourses);
 	const authorList: AuthorType[] = useAppSelector(getAuthors);
@@ -29,7 +29,7 @@ const Courses: FC<CoursesProps> = memo(({ role, token }) => {
 
 	useEffect(() => {
 		fetchAllCourses().then(({ result }) => dispatch(setCourses(result)));
-		fetchAllAuthors().then(({ result }) => dispatch(setAuthors(result)));
+		dispatch(setAuthors());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

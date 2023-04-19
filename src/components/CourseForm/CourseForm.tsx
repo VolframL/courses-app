@@ -1,29 +1,26 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import React, {
-	FC,
-	ChangeEvent,
-	SetStateAction,
-	useState,
-	useEffect,
-} from 'react';
-import { v4 as uuid } from 'uuid';
+import React, { FC, useState, useEffect } from 'react';
 
 import Button from 'common/Button';
 import Input from 'common/Input';
-import Textarea from 'common/Textarea';
 
-import { pipeDuration, validateMinLength } from 'helpers';
+import Title from './components/Title';
+import Description from './components/Description';
+import Duration from './components/Duration';
+
+import { validateMinLength, onInput } from 'helpers';
 import { CREATE_AUTHOR_BUTTON_TEXT } from '../../constants';
-import { CourseType, AuthorType } from 'types';
+import { AuthorType, CourseToPost } from 'types';
 import { getAuthors } from 'store/selectors';
 import { useAppDispatch, useAppSelector } from 'store/index';
 import url from 'urls';
 
-import styles from './CourseForm.module.scss';
-import { addAuthor } from 'store/authors/reducer';
-import { addCourse } from 'store/courses/reducer';
+import { addAuthor } from 'store/authors/thunk';
+import { addCourse } from 'store/courses/thunk';
 
-const CreateCourse: FC = () => {
+import styles from './CourseForm.module.scss';
+
+const CreateCourse: FC<{ token: string }> = ({ token }) => {
 	const { courseId } = useParams();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -31,14 +28,11 @@ const CreateCourse: FC = () => {
 	const [courseAuthorList, setCourseAuthorList] = useState<AuthorType[]>([]);
 	const [requiredAuthorList, setRequiredAuthorList] = useState(false);
 	const [title, setTitle] = useState('');
-	const [errorTitle, setErrorTitle] = useState('');
 	const [newAuthorName, setNewAuthorName] = useState('');
 	const [errorAuthorName, setErrorAuthorName] = useState('');
 	const [description, setDescription] = useState('');
-	const [errorDescription, setErrorDescription] = useState('');
 	const [duration, setDuration] = useState('');
-	const [durationText, setDurationText] = useState('');
-	const [errorDuration, setErrorDuration] = useState('');
+
 	const authorList = useAppSelector(getAuthors);
 	const [renderedAuthorList, setRenderedAuthorList] =
 		useState<AuthorType[]>(authorList);
@@ -54,48 +48,14 @@ const CreateCourse: FC = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const onInput = (
-		e: ChangeEvent<HTMLTextAreaElement> | ChangeEvent<HTMLInputElement>,
-		title: string,
-		minLength: number,
-		setFunc: {
-			(value: SetStateAction<string>): void;
-		},
-		setErrorFunc: {
-			(errorText: SetStateAction<string>): void;
-		}
-	) => {
-		const { value } = e.target;
-		setFunc(value);
-		validateMinLength(value, minLength, title, setErrorFunc);
-	};
-
-	const onInputDuration = (e: ChangeEvent<HTMLInputElement>) => {
-		const { value } = e.target;
-		if (/\D/.test(value)) {
-			setErrorDuration('It should only be numbers.');
-		} else if (value.charAt(0) === '0') {
-			setErrorDuration('The first digit cannot be 0.');
-			setDuration('');
-		} else {
-			setErrorDuration('');
-			setDuration(value);
-			setDurationText(pipeDuration(+value));
-		}
-	};
-
 	const onCreateAuthor = (newAuthorName: string) => {
 		validateMinLength(newAuthorName, 2, 'Author name', setErrorAuthorName);
 
-		if (newAuthorName) {
-			const newAuthor = {
-				name: newAuthorName,
-				id: uuid(),
-			};
-
-			setNewAuthorName('');
-			dispatch(addAuthor(newAuthor));
-		}
+		dispatch(addAuthor({ token, author: newAuthorName }))
+			.then(() => setNewAuthorName(''))
+			.catch((e) => {
+				setErrorAuthorName(e.message);
+			});
 	};
 
 	const onAddAuthor = (obj: AuthorType) => {
@@ -115,30 +75,24 @@ const CreateCourse: FC = () => {
 		if (!courseAuthorList.length) {
 			setRequiredAuthorList(true);
 		}
-		if (!title) {
-			setErrorTitle('Title cannot be empty');
-		}
-		if (!description) {
-			setErrorDescription('Description cannot be empty');
-		}
-		if (!duration) {
-			setErrorDuration('Duration cannot be empty');
-		}
-		if (+duration <= 0) {
-			setErrorDuration('Duration must be more than 0 minute');
-		}
+		// if (!duration) {
+		// 	setErrorDuration('Duration cannot be empty');
+		// }
+		// if (+duration <= 0) {
+		// 	setErrorDuration('Duration must be more than 0 minute');
+		// }
 
 		if (courseAuthorList.length && title && description && +duration > 0) {
-			const newCourse: CourseType = {
-				id: uuid(),
+			const newCourse: CourseToPost = {
+				// id: uuid(),
 				title,
 				description,
-				creationDate: new Date().toLocaleDateString('en-US'),
+				// creationDate: new Date().toLocaleDateString('en-US'),
 				duration: +duration,
 				authors: courseAuthorList.map((obj) => obj.id),
 			};
 
-			dispatch(addCourse(newCourse));
+			dispatch(addCourse({ token, course: newCourse }));
 			navigate(url.courses);
 		} else {
 			alert('Please, fill in all fields');
@@ -147,31 +101,8 @@ const CreateCourse: FC = () => {
 
 	return (
 		<div className={styles.wrapper}>
-			<div className={styles.header}>
-				<div className={styles.input}>
-					<Input
-						labelText='Title'
-						placeholderText='Enter title'
-						onChange={(e) => onInput(e, 'Title', 2, setTitle, setErrorTitle)}
-						value={title}
-						error={errorTitle}
-						name='title'
-					/>
-				</div>
-				<Button onClick={onSubmit}>Create course</Button>
-			</div>
-			<div className={styles.description}>
-				<Textarea
-					value={description}
-					name='description'
-					placeholderText='Enter description'
-					labelText='Description'
-					error={errorDescription}
-					onChange={(e) =>
-						onInput(e, 'Description', 2, setDescription, setErrorDescription)
-					}
-				/>
-			</div>
+			<Title onSubmit={onSubmit} title={title} setTitle={setTitle} />
+			<Description description={description} setDescription={setDescription} />
 			<div className={styles.main}>
 				<div className={styles.add_new_author}>
 					<b>Add author</b>
@@ -208,20 +139,7 @@ const CreateCourse: FC = () => {
 							: 'Authors list is empty'}
 					</ul>
 				</div>
-				<div className={styles.duration}>
-					<b>Duration</b>
-					<Input
-						placeholderText='Enter duration in minutes'
-						labelText='Duration'
-						onChange={onInputDuration}
-						value={duration}
-						error={errorDuration}
-						name='duration'
-					/>
-					<div className={styles.time}>
-						Duration: <b>{durationText || '00:00'}</b> hours
-					</div>
-				</div>
+				<Duration duration={duration} setDuration={setDuration} />
 				<div className={styles.author_list}>
 					<b>Course authors</b>
 					<div className={'error'}>
