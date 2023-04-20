@@ -5,35 +5,29 @@ import Header from 'components/Header';
 import Router from 'Router';
 
 import { useAppDispatch, useAppSelector } from 'store/index';
-import { logout } from 'store/user/reducer';
+import { logout } from 'store/user/thunk';
 import { getUser } from 'store/selectors';
-import useCoursesService from 'services';
 
 import './App.scss';
 
 const App: FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const { postLogout } = useCoursesService();
-
-	const { token, name } = useAppSelector(getUser);
+	const user = useAppSelector(getUser);
 
 	const onLogout = () => {
-		postLogout(token)
+		dispatch(logout(user.token))
 			.then(() => {
-				dispatch(logout());
 				navigate('/login');
 			})
-			.catch((e) => {
-				console.log('Error logout ' + e);
-			});
+			.catch((e) => console.log('Error logout ' + e));
 	};
 
 	return (
 		<div className={'app'}>
-			<Header userName={name} token={token} onLogout={onLogout} />
+			<Header user={user} onLogout={onLogout} />
 			<main className={'main'}>
-				<Router />
+				<Router user={user} />
 			</main>
 		</div>
 	);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Courses from 'components/Courses';
@@ -9,16 +9,16 @@ import Login from 'components/Login';
 import PrivateRouter from 'components/PrivateRouter';
 import Page404 from 'components/Page404';
 
-import { useAppDispatch, useAppSelector } from 'store/index';
-import { getUser } from 'store/selectors';
+import { useAppDispatch } from 'store/index';
 import { login } from 'store/user/reducer';
 import { fetchMe } from 'store/user/thunk';
+import { UserState } from 'types';
 
-const Router = () => {
+const Router: FC<{ user: UserState }> = ({ user }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
-	const { isAuth, role, token } = useAppSelector(getUser);
+	const { isAuth, role, token } = user;
 
 	const checkStorage = () => {
 		const token = window.localStorage.getItem('token');
@@ -28,9 +28,14 @@ const Router = () => {
 				: navigate(pathname);
 		} else {
 			dispatch(login(token));
-			dispatch(fetchMe(token)).then(() => {
-				pathname === '/' ? navigate('/courses') : navigate(pathname);
-			});
+			dispatch(fetchMe(token))
+				.then(() => {
+					pathname === '/' ? navigate('/courses') : navigate(pathname);
+				})
+				.catch((e) => {
+					window.localStorage.removeItem('token');
+					console.log('old token' + e);
+				});
 		}
 	};
 

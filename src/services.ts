@@ -62,20 +62,6 @@ const useCoursesService = () => {
 		}
 	};
 
-	const userMe = async (token: string) => {
-		try {
-			const { data } = await axios.get('/users/me', {
-				headers: {
-					Authorization: token,
-				},
-			});
-			return data;
-		} catch (error) {
-			console.log(error);
-			throw error;
-		}
-	};
-
 	const deleteCourseById = async (token: string, id: string) => {
 		try {
 			const { data } = await axios.delete(`/courses/${id}`, {
@@ -127,6 +113,15 @@ const useCoursesService = () => {
 				},
 			}
 		);
+
+	const userMe = async (token: string) => {
+		const { data } = await axios.get('/users/me', {
+			headers: {
+				Authorization: token,
+			},
+		});
+		return data;
+	};
 
 	return {
 		postLogin,

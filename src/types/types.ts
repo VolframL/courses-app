@@ -52,8 +52,7 @@ export type UserState = {
 };
 
 export type HeaderProps = {
-	userName: string;
-	token: string;
+	user: UserState;
 	onLogout: () => void;
 };
 
