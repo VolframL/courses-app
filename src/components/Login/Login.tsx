@@ -35,9 +35,9 @@ const Login: FC = () => {
 				dispatch(login(token));
 				return token;
 			})
-			.then((token) => dispatch(fetchMe(token)))
+			.then(() => dispatch(fetchMe()))
 			.then(() => navigate(url.courses))
-			.catch((e) => setError(e.message));
+			.catch((e) => setError(e.response.data.result));
 	};
 
 	return (

@@ -16,7 +16,7 @@ const App: FC = () => {
 	const user = useAppSelector(getUser);
 
 	const onLogout = () => {
-		dispatch(logout(user.token))
+		dispatch(logout())
 			.then(() => {
 				navigate('/login');
 			})

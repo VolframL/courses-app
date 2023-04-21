@@ -4,10 +4,10 @@ import { CourseToPost } from 'types';
 
 export const deleteCourse = createAsyncThunk(
 	'courses/deleteCourse',
-	async (data: { token: string; id: string }) => {
+	async (id: string) => {
 		const { deleteCourseById } = useCoursesService();
-		const res = await deleteCourseById(data.token, data.id);
-		return res;
+		const { data } = await deleteCourseById(id);
+		return data;
 	}
 );
 

@@ -28,7 +28,9 @@ const Courses: FC<CoursesProps> = memo(({ role, token }) => {
 	const [filteresCourses, setFilteresCourses] = useState(coursesList);
 
 	useEffect(() => {
-		fetchAllCourses().then(({ result }) => dispatch(setCourses(result)));
+		fetchAllCourses()
+			.then(({ data: { result } }) => dispatch(setCourses(result)))
+			.catch((e) => console.log(e));
 		dispatch(setAuthors());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

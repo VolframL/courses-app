@@ -3,8 +3,8 @@ import useCoursesService from 'services';
 
 export const setAuthors = createAsyncThunk('courses/setAuthors', async () => {
 	const { fetchAllAuthors } = useCoursesService();
-	const res = await fetchAllAuthors();
-	return res;
+	const { data } = await fetchAllAuthors();
+	return data;
 });
 
 export const deleteAuthor = createAsyncThunk(
@@ -21,7 +21,7 @@ export const addAuthor = createAsyncThunk(
 	async (data: { token: string; author: string }, thunkAPI) => {
 		const { createAuthor } = useCoursesService();
 		try {
-			return await createAuthor(data.token, data.author);
+			return await createAuthor(data.author);
 			// @ts-ignore
 		} catch (error: AxiosError) {
 			return thunkAPI.rejectWithValue(error.response.data.errors);

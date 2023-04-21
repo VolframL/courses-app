@@ -28,7 +28,7 @@ const Router: FC<{ user: UserState }> = ({ user }) => {
 				: navigate(pathname);
 		} else {
 			dispatch(login(token));
-			dispatch(fetchMe(token))
+			dispatch(fetchMe())
 				.then(() => {
 					pathname === '/' ? navigate('/courses') : navigate(pathname);
 				})

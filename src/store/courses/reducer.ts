@@ -12,8 +12,8 @@ export const coursesSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(deleteCourse.fulfilled, (state, action) => {
-			const { id } = action.meta.arg;
-			return (state = state.filter((course) => course.id !== id));
+			// const { id } = action.meta.arg;
+			// return (state = state.filter((course) => course.id !== id));
 		});
 		builder.addCase(addCourse.pending, () => {
 			console.log('try to post new course');

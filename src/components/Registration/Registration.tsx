@@ -26,18 +26,18 @@ const Registration: FC = () => {
 			email,
 		};
 
-		try {
-			registration(newUser).then(() => navigate('/login'));
-		} catch (error: AxiosError | unknown) {
-			const err: any = error as AxiosError;
-			if (err.toJSON().message === 'Network Error') {
-				alert('No connection to the server, try again later');
-			} else if (err.toJSON().status >= 400 && err.toJSON().status <= 499) {
-				setError(err.response?.data?.errors[0]);
-			} else {
-				alert('Unknown error, please try again later');
-			}
-		}
+		registration(newUser)
+			.then(() => navigate('/login'))
+			.catch((error: AxiosError | unknown) => {
+				const err: any = error as AxiosError;
+				if (err.toJSON().message === 'Network Error') {
+					alert('No connection to the server, try again later');
+				} else if (err.toJSON().status >= 400 && err.toJSON().status <= 499) {
+					setError(err.response?.data?.errors[0]);
+				} else {
+					alert('Unknown error, please try again later');
+				}
+			});
 	};
 
 	return (

@@ -8,73 +8,23 @@ import axios from './utils/axios';
 import url from 'urls';
 
 const useCoursesService = () => {
-	const postLogin = async (user: LoginPayload) => {
-		try {
-			return await axios.post<UserData>('/login', user);
-		} catch (error) {
-			console.log(error);
-			throw error;
-		}
-	};
+	const postLogin = async (user: LoginPayload) =>
+		await axios.post<UserData>('/login', user);
 
-	const postLogout = async (token: string) => {
-		try {
-			await axios.delete('/logout', {
-				headers: {
-					Authorization: token,
-				},
-			});
-		} catch (error) {
-			console.log(error);
-			throw error;
-		}
-	};
+	const postLogout = async () => await axios.delete('/logout');
 
-	const registration = async (user: RegisterPayload) => {
-		try {
-			return await axios.post<UserData>('/register', user);
-		} catch (error) {
-			console.log(error);
-			throw error;
-		}
-	};
+	const registration = async (user: RegisterPayload) =>
+		await axios.post<UserData>('/register', user);
 
-	const fetchAllCourses = async () => {
-		try {
-			const { data } = await axios.get('/courses/all');
-			return data;
-		} catch (error) {
-			console.log(error);
-			throw error;
-		}
-	};
+	const fetchAllCourses = async () => await axios.get('/courses/all');
 
 	const fetchCourseById = async (id: string) =>
 		await axios.get(`/courses/${id}`);
 
-	const fetchAllAuthors = async () => {
-		try {
-			const { data } = await axios.get('/authors/all');
-			return data;
-		} catch (error) {
-			console.log(error);
-			throw error;
-		}
-	};
+	const fetchAllAuthors = async () => await axios.get('/authors/all');
 
-	const deleteCourseById = async (token: string, id: string) => {
-		try {
-			const { data } = await axios.delete(`/courses/${id}`, {
-				headers: {
-					Authorization: token,
-				},
-			});
-			return data;
-		} catch (error) {
-			console.log(error);
-			throw error;
-		}
-	};
+	const deleteCourseById = async (id: string) =>
+		await axios.delete(`/courses/${id}`);
 
 	const createCourse = async (token: string, data: CourseToPost) => {
 		try {
@@ -103,23 +53,11 @@ const useCoursesService = () => {
 		}
 	};
 
-	const createAuthor = async (token: string, name: string) =>
-		await axios.post(
-			'/authors/add',
-			{ name },
-			{
-				headers: {
-					Authorization: token,
-				},
-			}
-		);
+	const createAuthor = async (name: string) =>
+		await axios.post('/authors/add', { name });
 
-	const userMe = async (token: string) => {
-		const { data } = await axios.get('/users/me', {
-			headers: {
-				Authorization: token,
-			},
-		});
+	const userMe = async () => {
+		const { data } = await axios.get('/users/me');
 		return data;
 	};
 

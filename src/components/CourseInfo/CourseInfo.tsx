@@ -23,10 +23,7 @@ const CourseInfo: FC = () => {
 	useEffect(() => {
 		if (courseId) {
 			fetchCourseById(courseId)
-				.then(({ data }) => {
-					setCourse(data.result);
-					console.log(authorList);
-				})
+				.then(({ data }) => setCourse(data.result))
 				.catch((e) => console.log(e))
 				.finally(() => setLoading(false));
 		}

@@ -54,7 +54,7 @@ const CourseCard: FC<CourseCardProps> = memo(
 								<Button onClick={() => navigate(`${url.courseEdit}/${id}`)}>
 									<EditIcon />
 								</Button>
-								<Button onClick={() => dispatch(deleteCourse({ token, id }))}>
+								<Button onClick={() => dispatch(deleteCourse(id))}>
 									<DeleteIcon />
 								</Button>
 							</>
