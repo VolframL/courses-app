@@ -42,6 +42,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  grid-column-start: 1;
+  grid-row-start: 1;
 }
 
 .author_list {
@@ -58,6 +60,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  grid-column-start: 1;
+  grid-row-start: 2;
 
   .time {
     font-size: 30px;

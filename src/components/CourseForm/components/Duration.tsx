@@ -6,11 +6,12 @@ import { pipeDuration } from 'helpers';
 
 import styles from '../CourseForm.module.scss';
 
-const Duration: FC<{ duration: string; setDuration: Dispatch<string> }> = ({
-	duration,
-	setDuration,
-}) => {
-	const [durationText, setDurationText] = useState('');
+const Duration: FC<{
+	duration: string;
+	setDuration: Dispatch<string>;
+	durationText: string;
+	setDurationText: Dispatch<string>;
+}> = ({ duration, setDuration, durationText, setDurationText }) => {
 	const [errorDuration, setErrorDuration] = useState('');
 
 	const onInputDuration = (e: ChangeEvent<HTMLInputElement>) => {

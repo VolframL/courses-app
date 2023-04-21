@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import Textarea from 'common/Textarea';
 
 import { onInput } from 'helpers';
 
+import { DescriptionProps } from 'types';
+
 import styles from '../CourseForm.module.scss';
 
-const Description = ({ description, setDescription }) => {
+const Description: FC<DescriptionProps> = ({ description, setDescription }) => {
 	const [errorDescription, setErrorDescription] = useState('');
-
-	// useEffect(() => {
-	// 	if (description === '') {
-	// 		setErrorDescription('Description cannot be empty');
-	// 	}
-	// }, [description]);
 
 	return (
 		<div className={styles.description}>

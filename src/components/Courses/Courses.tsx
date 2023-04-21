@@ -25,7 +25,7 @@ const Courses: FC<CoursesProps> = memo(({ role, token }) => {
 	const coursesList: CourseType[] = useAppSelector(getCourses);
 	const authorList: AuthorType[] = useAppSelector(getAuthors);
 
-	const [filteresCourses, setFilteresCourses] = useState(coursesList);
+	const [filteredCourses, setFilteredCourses] = useState(coursesList);
 
 	useEffect(() => {
 		fetchAllCourses()
@@ -36,16 +36,16 @@ const Courses: FC<CoursesProps> = memo(({ role, token }) => {
 	}, []);
 
 	useEffect(() => {
-		setFilteresCourses(coursesList);
+		setFilteredCourses(coursesList);
 	}, [coursesList]);
 
 	const onSearch = (): boolean | void => {
-		setFilteresCourses(filterCourse(coursesList, searchText));
+		setFilteredCourses(filterCourse(coursesList, searchText));
 	};
 
 	useEffect(() => {
 		if (searchText === '') {
-			setFilteresCourses(coursesList);
+			setFilteredCourses(coursesList);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [searchText]);
@@ -68,13 +68,14 @@ const Courses: FC<CoursesProps> = memo(({ role, token }) => {
 					</Button>
 				)}
 			</div>
-			{filteresCourses.map((course) => (
+			{filteredCourses.map((course) => (
 				<CourseCard
 					role={role}
 					token={token}
 					key={course.id}
 					course={course}
 					authorList={authorList}
+					courseQuantity={coursesList.length}
 				/>
 			))}
 		</div>

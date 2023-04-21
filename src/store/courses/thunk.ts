@@ -4,18 +4,40 @@ import { CourseToPost } from 'types';
 
 export const deleteCourse = createAsyncThunk(
 	'courses/deleteCourse',
-	async (id: string) => {
+	async (id: string, thunkAPI) => {
 		const { deleteCourseById } = useCoursesService();
-		const { data } = await deleteCourseById(id);
-		return data;
+		try {
+			const { data } = await deleteCourseById(id);
+			return data;
+			// @ts-ignore
+		} catch (error: AxiosError) {
+			return thunkAPI.rejectWithValue(error.response.data.errors);
+		}
 	}
 );
 
 export const addCourse = createAsyncThunk(
 	'courses/addCourse',
-	async (data: { token: string; course: CourseToPost }) => {
+	async (course: CourseToPost, thunkAPI) => {
 		const { createCourse } = useCoursesService();
-		const res = await createCourse(data.token, data.course);
-		return res;
+		try {
+			return await createCourse(course);
+			// @ts-ignore
+		} catch (error: AxiosError) {
+			return thunkAPI.rejectWithValue(error.response.data.errors);
+		}
+	}
+);
+
+export const updCourse = createAsyncThunk(
+	'courses/updCourse',
+	async (data: { id: string; course: CourseToPost }, thunkAPI) => {
+		const { updateCourse } = useCoursesService();
+		try {
+			return await updateCourse(data.id, data.course);
+			// @ts-ignore
+		} catch (error: AxiosError) {
+			return thunkAPI.rejectWithValue(error.response.data.errors);
+		}
 	}
 );

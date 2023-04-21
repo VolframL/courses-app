@@ -5,7 +5,8 @@ import { AxiosError } from 'utils/axios';
 export const fetchMe = createAsyncThunk('user/fetchMe', async (_, thunkAPI) => {
 	const { userMe } = useCoursesService();
 	try {
-		return await userMe();
+		const { data } = await userMe();
+		return data;
 	} catch (error) {
 		if (error instanceof AxiosError) {
 			return thunkAPI.rejectWithValue(error.response?.data.errors);

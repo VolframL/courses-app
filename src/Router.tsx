@@ -61,16 +61,16 @@ const Router: FC<{ user: UserState }> = ({ user }) => {
 			<Route
 				path='/courses/add'
 				element={
-					<PrivateRouter>
-						<CourseForm token={token} />
+					<PrivateRouter role={role}>
+						<CourseForm />
 					</PrivateRouter>
 				}
 			/>
 			<Route
 				path='/courses/update/:courseId'
 				element={
-					<PrivateRouter>
-						<CourseForm token={token} />
+					<PrivateRouter role={role}>
+						<CourseForm />
 					</PrivateRouter>
 				}
 			/>

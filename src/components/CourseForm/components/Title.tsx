@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import Input from 'common/Input';
 import Button from 'common/Button';
 
 import { onInput } from 'helpers';
 
+import { TitleProps } from 'types';
+
 import styles from '../CourseForm.module.scss';
 
-const Title = ({ onSubmit, title, setTitle }) => {
+const Title: FC<TitleProps> = ({ onSubmit, title, setTitle, courseId }) => {
 	const [errorTitle, setErrorTitle] = useState('');
 
 	const onPressCreateCourse = () => {
@@ -29,7 +31,9 @@ const Title = ({ onSubmit, title, setTitle }) => {
 					name='title'
 				/>
 			</div>
-			<Button onClick={onPressCreateCourse}>Create course</Button>
+			<Button onClick={onPressCreateCourse}>
+				{courseId ? 'Save course' : 'Create course'}
+			</Button>
 		</div>
 	);
 };

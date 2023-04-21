@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export type CourseType = {
 	id: string;
 	title: string;
@@ -66,4 +68,34 @@ export type CourseCardProps = {
 	authorList: AuthorType[];
 	role: string;
 	token: string;
+	courseQuantity: number;
+};
+
+export type PrivateRouterProps = {
+	children: JSX.Element;
+	role: string;
+};
+
+export type CreateAuthorProps = {
+	setRenderedAuthorList: Dispatch<SetStateAction<AuthorType[]>>;
+	renderedAuthorList: AuthorType[];
+};
+
+export type DescriptionProps = {
+	setDescription: Dispatch<SetStateAction<string>>;
+	description: string;
+};
+
+export type TitleProps = {
+	setTitle: Dispatch<SetStateAction<string>>;
+	title: string;
+	onSubmit: () => void;
+	courseId: string | undefined;
+};
+
+export type AuthorListProps = {
+	renderedAuthorList: AuthorType[];
+	setCourseAuthorList: Dispatch<SetStateAction<AuthorType[]>>;
+	courseAuthorList: AuthorType[];
+	setRenderedAuthorList: Dispatch<SetStateAction<AuthorType[]>>;
 };

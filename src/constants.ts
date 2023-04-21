@@ -120,7 +120,3 @@ export const ENGLISH: Language = {
 		REGISTRATION_PAGE: 'If you have an account you can ',
 	},
 };
-
-export const CREATE_AUTHOR_BUTTON_TEXT = 'Create author';
-// const ADD_AUTHOR_BUTTON_TEXT = 'Add author';
-// const DELETE_AUTHOR_BUTTON_TEXT = 'Delete author';
