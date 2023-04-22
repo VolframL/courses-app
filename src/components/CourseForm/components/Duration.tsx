@@ -9,10 +9,9 @@ import styles from '../CourseForm.module.scss';
 const Duration: FC<{
 	duration: string;
 	setDuration: Dispatch<string>;
-	durationText: string;
-	setDurationText: Dispatch<string>;
-}> = ({ duration, setDuration, durationText, setDurationText }) => {
+}> = ({ duration, setDuration }) => {
 	const [errorDuration, setErrorDuration] = useState('');
+	const [durationText, setDurationText] = useState('');
 
 	const onInputDuration = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;

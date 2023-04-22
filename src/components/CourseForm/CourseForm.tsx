@@ -16,7 +16,6 @@ import url from 'urls';
 import { AuthorType, CourseToPost } from 'types';
 
 import styles from './CourseForm.module.scss';
-import { pipeDuration } from 'helpers';
 
 const CreateCourse: FC = () => {
 	const { courseId } = useParams();
@@ -28,9 +27,6 @@ const CreateCourse: FC = () => {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [duration, setDuration] = useState('');
-	const [durationText, setDurationText] = useState('');
-
-	const [, forceUpdate] = useState('');
 
 	const authorList = useAppSelector(getAuthors);
 	const [renderedAuthorList, setRenderedAuthorList] =
@@ -66,12 +62,6 @@ const CreateCourse: FC = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	// супер погане рішення
-	setTimeout(() => {
-		forceUpdate('yeah');
-		setDurationText(pipeDuration(+duration));
-	}, 1000);
-
 	const onSubmit = () => {
 		if (courseAuthorList.length && title && description && +duration > 0) {
 			const newCourse: CourseToPost = {
@@ -104,12 +94,7 @@ const CreateCourse: FC = () => {
 					setRenderedAuthorList={setRenderedAuthorList}
 					renderedAuthorList={renderedAuthorList}
 				/>
-				<Duration
-					duration={duration}
-					setDuration={setDuration}
-					durationText={durationText}
-					setDurationText={setDurationText}
-				/>
+				<Duration duration={duration} setDuration={setDuration} />
 
 				<AuthorList
 					renderedAuthorList={renderedAuthorList}

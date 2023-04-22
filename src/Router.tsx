@@ -1,5 +1,5 @@
-import React, { FC, useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import React, { FC } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 import Courses from 'components/Courses';
 import CourseInfo from 'components/CourseInfo';
@@ -9,44 +9,11 @@ import Login from 'components/Login';
 import PrivateRouter from 'components/PrivateRouter';
 import Page404 from 'components/Page404';
 
-import { useAppDispatch } from 'store/index';
-import { login } from 'store/user/reducer';
-import { fetchMe } from 'store/user/thunk';
 import { UserState } from 'types';
 
 const Router: FC<{ user: UserState }> = ({ user }) => {
-	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
-	const { pathname } = useLocation();
 	const { isAuth, role, token } = user;
-
-	const checkStorage = () => {
-		const token = window.localStorage.getItem('token');
-		if (!token) {
-			pathname === '/' || pathname === '/courses'
-				? navigate('/login')
-				: navigate(pathname);
-		} else {
-			dispatch(login(token));
-			dispatch(fetchMe())
-				.then(() => {
-					pathname === '/' ? navigate('/courses') : navigate(pathname);
-				})
-				.catch((e) => {
-					window.localStorage.removeItem('token');
-					console.log('old token' + e);
-				});
-		}
-	};
-
-	useEffect(() => {
-		if (!isAuth) {
-			checkStorage();
-		} else if (isAuth) {
-			pathname === '/' ? navigate('/courses') : navigate(pathname);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [pathname]);
+	// console.log(role);
 
 	return (
 		<Routes>
