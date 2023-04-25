@@ -4,7 +4,6 @@ import React, { FC, useState, useEffect } from 'react';
 import Title from './components/Title';
 import Description from './components/Description';
 import Duration from './components/Duration';
-import CreateAuthor from './components/CreateAuthor';
 import AuthorList from './components/AuthorList';
 
 import { addCourse, updCourse } from 'store/courses/thunk';
@@ -19,7 +18,7 @@ import styles from './CourseForm.module.scss';
 
 const CreateCourse: FC = () => {
 	const { courseId } = useParams();
-	const { fetchCourseById, fetchAuthorById } = useCoursesService();
+	const { fetchCourseById } = useCoursesService();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
@@ -43,16 +42,22 @@ const CreateCourse: FC = () => {
 				.then((res) => {
 					const { title, authors, duration, description } = res.data.result;
 					setTitle(title);
-					let authorsFromBack: AuthorType[] = [];
-					authors.forEach((id: string) => {
-						fetchAuthorById(id)
-							.then((res) => {
-								const { name, id } = res.data.result;
-								authorsFromBack.push({ name, id });
-							})
-							.catch((e) => console.log(e));
-					});
-					setCourseAuthorList(authorsFromBack);
+					// let authorsFromBack: AuthorType[] = [];
+					// console.log(authors);
+					// authors.forEach((id: string) => {
+					// 	fetchAuthorById(id)
+					// 		.then((res) => {
+					// 			const { name, id } = res.data.result;
+					// 			// authorsFromBack.push({ name, id });
+					// 			setCourseAuthorList([...courseAuthorList, { name, id }]);
+					// 		})
+					// 		.catch((e) => console.log(e))
+					// 		.finally(() => {
+					// 			// console.log(authorsFromBack);
+					// 		});
+					// });
+					// setCourseAuthorList(authorsFromBack);
+					setCourseAuthorList(authors);
 					setDescription(description);
 					setDuration(duration);
 				})
@@ -90,12 +95,11 @@ const CreateCourse: FC = () => {
 			/>
 			<Description description={description} setDescription={setDescription} />
 			<div className={styles.main}>
-				<CreateAuthor
+				{/* <CreateAuthor
 					setRenderedAuthorList={setRenderedAuthorList}
 					renderedAuthorList={renderedAuthorList}
-				/>
+				/> */}
 				<Duration duration={duration} setDuration={setDuration} />
-
 				<AuthorList
 					renderedAuthorList={renderedAuthorList}
 					setCourseAuthorList={setCourseAuthorList}

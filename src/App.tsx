@@ -57,7 +57,7 @@ const App: FC = () => {
 		<div className={'app'}>
 			<Header user={user} onLogout={onLogout} />
 			<main className={'main'}>
-				<Router user={user} />
+				{user.isAuth ? <Router user={user} /> : <div>Loading</div>}
 			</main>
 		</div>
 	);

@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent, Dispatch } from 'react';
+import React, { FC, useState, ChangeEvent, Dispatch, useEffect } from 'react';
 
 import Input from 'common/Input';
 
@@ -23,9 +23,12 @@ const Duration: FC<{
 		} else {
 			setErrorDuration('');
 			setDuration(value);
-			setDurationText(pipeDuration(+value));
 		}
 	};
+
+	useEffect(() => {
+		setDurationText(pipeDuration(+duration));
+	}, [duration]);
 
 	return (
 		<div className={styles.duration}>

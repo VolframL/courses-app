@@ -7,11 +7,13 @@ import url from 'urls';
 import styles from './CourseInfo.module.scss';
 import { AuthorType, CourseType } from 'types';
 import useCoursesService from 'services';
-import { useAppSelector } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 import { getAuthors } from 'store/selectors';
+import { setAuthors } from 'store/authors/thunk';
 
 const CourseInfo: FC = () => {
 	const { courseId } = useParams();
+	const dispatch = useAppDispatch();
 
 	const [course, setCourse] = useState<CourseType>();
 	const [loading, setLoading] = useState(true);
@@ -22,6 +24,7 @@ const CourseInfo: FC = () => {
 
 	useEffect(() => {
 		if (courseId) {
+			dispatch(setAuthors());
 			fetchCourseById(courseId)
 				.then(({ data }) => setCourse(data.result))
 				.catch((e) => console.log(e))
@@ -39,7 +42,7 @@ const CourseInfo: FC = () => {
 		);
 	}
 
-	if (!loading && course) {
+	if (!loading && course && authorList.length) {
 		const { title, duration, description, id, creationDate, authors } = course;
 		return (
 			<div className={styles.wrapper}>

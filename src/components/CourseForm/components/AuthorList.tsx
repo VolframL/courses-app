@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import Button from 'common/Button';
+import CreateAuthor from './CreateAuthor';
 
 import { AuthorListProps, AuthorType } from 'types';
 
@@ -24,8 +25,14 @@ const AuthorList: FC<AuthorListProps> = ({
 		setCourseAuthorList(courseAuthorList.filter((item) => item.id !== obj.id));
 	};
 
+	console.log(courseAuthorList);
+
 	return (
 		<>
+			<CreateAuthor
+				setRenderedAuthorList={setRenderedAuthorList}
+				renderedAuthorList={renderedAuthorList}
+			/>
 			<div className={styles.author_list}>
 				<b>Authors</b>
 				<ul>
