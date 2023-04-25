@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { dateGenerator, getAuthorsListArr, pipeDuration } from 'helpers';
+import { dateGenerator, getAuthorsListNamesArr, pipeDuration } from 'helpers';
 import url from 'urls';
 
 import styles from './CourseInfo.module.scss';
@@ -67,7 +67,7 @@ const CourseInfo: FC = () => {
 							<div>
 								<b className={styles.authors}>Authors:</b>
 								<ul>
-									{getAuthorsListArr(authors, authorList).map((item) => (
+									{getAuthorsListNamesArr(authors, authorList).map((item) => (
 										<li key={item}>{item}</li>
 									))}
 								</ul>

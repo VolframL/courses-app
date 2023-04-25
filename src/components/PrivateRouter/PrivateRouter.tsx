@@ -4,10 +4,14 @@ import { PrivateRouterProps } from 'types';
 import url from 'urls';
 
 const PrivateRouter: FC<PrivateRouterProps> = ({ children, role }) =>
-	role === 'admin' ? (
-		<>{children}</>
+	role ? (
+		role === 'admin' ? (
+			<>{children}</>
+		) : (
+			<Navigate to={url.courses} replace={true} />
+		)
 	) : (
-		<Navigate to={url.courses} replace={true} />
+		<div>Loading Private Router</div>
 	);
 
 export default PrivateRouter;

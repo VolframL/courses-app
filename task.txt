@@ -1,7 +1,0 @@
-precomit хук
-
-axios error и axios response  @ts-ignore
-
-duration и authorList
-
-add route не очень работает

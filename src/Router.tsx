@@ -13,7 +13,6 @@ import { UserState } from 'types';
 
 const Router: FC<{ user: UserState }> = ({ user }) => {
 	const { isAuth, role, token } = user;
-	// console.log(role);
 
 	return (
 		<Routes>

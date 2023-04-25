@@ -20,7 +20,7 @@ export const authorsSlice = createSlice({
 			throw new Error(JSON.stringify(payload));
 		});
 		builder.addCase(addAuthor.fulfilled, (state, { payload }) => {
-			const author = payload.data.result;
+			const author = payload?.data.result;
 			return (state = [...state, author]);
 		});
 	},

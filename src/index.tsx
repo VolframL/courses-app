@@ -9,12 +9,12 @@ const rootElem = document.getElementById('root');
 
 if (rootElem) {
 	ReactDOM.createRoot(rootElem).render(
-		// <React.StrictMode>
-		<Provider store={store}>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</Provider>
-		// </React.StrictMode>
+		<React.StrictMode>
+			<Provider store={store}>
+				<BrowserRouter>
+					<App />
+				</BrowserRouter>
+			</Provider>
+		</React.StrictMode>
 	);
 }

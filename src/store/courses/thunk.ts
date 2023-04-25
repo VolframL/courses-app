@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 import useCoursesService from 'services';
 import { CourseToPost } from 'types';
 
@@ -9,9 +10,10 @@ export const deleteCourse = createAsyncThunk(
 		try {
 			const { data } = await deleteCourseById(id);
 			return data;
-			// @ts-ignore
-		} catch (error: AxiosError) {
-			return thunkAPI.rejectWithValue(error.response.data.errors);
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				return thunkAPI.rejectWithValue(error.response?.data.errors);
+			}
 		}
 	}
 );
@@ -22,9 +24,10 @@ export const addCourse = createAsyncThunk(
 		const { createCourse } = useCoursesService();
 		try {
 			return await createCourse(course);
-			// @ts-ignore
-		} catch (error: AxiosError) {
-			return thunkAPI.rejectWithValue(error.response.data.errors);
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				return thunkAPI.rejectWithValue(error.response?.data.errors);
+			}
 		}
 	}
 );
@@ -35,9 +38,10 @@ export const updCourse = createAsyncThunk(
 		const { updateCourse } = useCoursesService();
 		try {
 			return await updateCourse(data.id, data.course);
-			// @ts-ignore
-		} catch (error: AxiosError) {
-			return thunkAPI.rejectWithValue(error.response.data.errors);
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				return thunkAPI.rejectWithValue(error.response?.data.errors);
+			}
 		}
 	}
 );

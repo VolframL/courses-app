@@ -1,6 +1,6 @@
 import { AuthorType } from 'types/types';
 
-export const getAuthorsListArr = (
+export const getAuthorsListNamesArr = (
 	authorsId: string[],
 	authorList: AuthorType[]
 ) =>

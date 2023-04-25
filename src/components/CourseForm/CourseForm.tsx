@@ -4,10 +4,9 @@ import React, { FC, useState, useEffect } from 'react';
 import Title from './components/Title';
 import Description from './components/Description';
 import Duration from './components/Duration';
-import AuthorList from './components/AuthorList';
+import AuthorList from './components/AuthorList/AuthorList';
 
 import { addCourse, updCourse } from 'store/courses/thunk';
-import { getAuthors } from 'store/selectors';
 import { useAppDispatch, useAppSelector } from 'store/index';
 import useCoursesService from 'services';
 import url from 'urls';
@@ -15,57 +14,41 @@ import url from 'urls';
 import { AuthorType, CourseToPost } from 'types';
 
 import styles from './CourseForm.module.scss';
+import { getAuthorsListArr } from 'helpers/getAuthorListArr';
+import { getAuthors } from 'store/selectors';
+import { setAuthors } from 'store/authors/thunk';
 
-const CreateCourse: FC = () => {
+const CourseForm: FC = () => {
 	const { courseId } = useParams();
 	const { fetchCourseById } = useCoursesService();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const authorList = useAppSelector(getAuthors);
 
 	const [courseAuthorList, setCourseAuthorList] = useState<AuthorType[]>([]);
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [duration, setDuration] = useState('');
 
-	const authorList = useAppSelector(getAuthors);
-	const [renderedAuthorList, setRenderedAuthorList] =
-		useState<AuthorType[]>(authorList);
-
 	useEffect(() => {
-		setRenderedAuthorList(authorList);
+		dispatch(setAuthors());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
-		if (courseId) {
+		if (courseId && authorList.length) {
 			fetchCourseById(courseId)
 				.then((res) => {
 					const { title, authors, duration, description } = res.data.result;
 					setTitle(title);
-					// let authorsFromBack: AuthorType[] = [];
-					// console.log(authors);
-					// authors.forEach((id: string) => {
-					// 	fetchAuthorById(id)
-					// 		.then((res) => {
-					// 			const { name, id } = res.data.result;
-					// 			// authorsFromBack.push({ name, id });
-					// 			setCourseAuthorList([...courseAuthorList, { name, id }]);
-					// 		})
-					// 		.catch((e) => console.log(e))
-					// 		.finally(() => {
-					// 			// console.log(authorsFromBack);
-					// 		});
-					// });
-					// setCourseAuthorList(authorsFromBack);
-					setCourseAuthorList(authors);
+					setCourseAuthorList(getAuthorsListArr(authors, authorList));
 					setDescription(description);
 					setDuration(duration);
 				})
 				.catch((e) => console.log(e));
 		}
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [authorList]);
 
 	const onSubmit = () => {
 		if (courseAuthorList.length && title && description && +duration > 0) {
@@ -85,30 +68,32 @@ const CreateCourse: FC = () => {
 		}
 	};
 
-	return (
-		<div className={styles.wrapper}>
-			<Title
-				onSubmit={onSubmit}
-				title={title}
-				setTitle={setTitle}
-				courseId={courseId}
-			/>
-			<Description description={description} setDescription={setDescription} />
-			<div className={styles.main}>
-				{/* <CreateAuthor
-					setRenderedAuthorList={setRenderedAuthorList}
-					renderedAuthorList={renderedAuthorList}
-				/> */}
-				<Duration duration={duration} setDuration={setDuration} />
-				<AuthorList
-					renderedAuthorList={renderedAuthorList}
-					setCourseAuthorList={setCourseAuthorList}
-					courseAuthorList={courseAuthorList}
-					setRenderedAuthorList={setRenderedAuthorList}
+	if (authorList.length) {
+		return (
+			<div className={styles.wrapper}>
+				<Title
+					onSubmit={onSubmit}
+					title={title}
+					setTitle={setTitle}
+					courseId={courseId}
 				/>
+				<Description
+					description={description}
+					setDescription={setDescription}
+				/>
+				<div className={styles.main}>
+					<Duration duration={duration} setDuration={setDuration} />
+					<AuthorList
+						courseAuthorList={courseAuthorList}
+						setCourseAuthorList={setCourseAuthorList}
+						authorList={authorList}
+					/>
+				</div>
 			</div>
-		</div>
-	);
+		);
+	} else {
+		return <div>Loading...</div>;
+	}
 };
 
-export default CreateCourse;
+export default CourseForm;

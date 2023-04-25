@@ -7,14 +7,9 @@ import { addAuthor } from 'store/authors/thunk';
 import { useAppDispatch } from 'store/index';
 import { validateMinLength, onInput } from 'helpers';
 
-import { CreateAuthorProps } from 'types';
+import styles from '../../CourseForm.module.scss';
 
-import styles from '../CourseForm.module.scss';
-
-const CreateAuthor: FC<CreateAuthorProps> = ({
-	setRenderedAuthorList,
-	renderedAuthorList,
-}) => {
+const CreateAuthor: FC = () => {
 	const dispatch = useAppDispatch();
 
 	const [newAuthorName, setNewAuthorName] = useState('');
@@ -24,10 +19,8 @@ const CreateAuthor: FC<CreateAuthorProps> = ({
 		validateMinLength(newAuthorName, 2, 'Author name', setErrorAuthorName);
 
 		dispatch(addAuthor(newAuthorName))
-			.then((res) => {
-				// @ts-ignore
-				const newAuthor = res.payload.data.result;
-				setRenderedAuthorList([...renderedAuthorList, newAuthor]);
+			.then(() => {
+				setNewAuthorName('');
 			})
 			.catch((e) => {
 				if (e.message === `["'name' was missed."]`) {
@@ -50,10 +43,7 @@ const CreateAuthor: FC<CreateAuthorProps> = ({
 			/>
 			<Button
 				disabled={Boolean(errorAuthorName)}
-				onClick={() => {
-					onCreateAuthor(newAuthorName);
-					setNewAuthorName('');
-				}}
+				onClick={() => onCreateAuthor(newAuthorName)}
 			>
 				Create author
 			</Button>

@@ -76,11 +76,6 @@ export type PrivateRouterProps = {
 	role: string;
 };
 
-export type CreateAuthorProps = {
-	setRenderedAuthorList: Dispatch<SetStateAction<AuthorType[]>>;
-	renderedAuthorList: AuthorType[];
-};
-
 export type DescriptionProps = {
 	setDescription: Dispatch<SetStateAction<string>>;
 	description: string;
@@ -94,8 +89,12 @@ export type TitleProps = {
 };
 
 export type AuthorListProps = {
-	renderedAuthorList: AuthorType[];
 	setCourseAuthorList: Dispatch<SetStateAction<AuthorType[]>>;
 	courseAuthorList: AuthorType[];
-	setRenderedAuthorList: Dispatch<SetStateAction<AuthorType[]>>;
+	authorList: AuthorType[];
+};
+
+export type CourseAuthorListProps = {
+	setCourseAuthorList: Dispatch<SetStateAction<AuthorType[]>>;
+	courseAuthorList: AuthorType[];
 };

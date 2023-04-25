@@ -22,11 +22,11 @@ export const coursesSlice = createSlice({
 			console.log('error');
 		});
 		builder.addCase(addCourse.fulfilled, (state, { payload }) => {
-			const course = payload.data.result;
+			const course = payload?.data.result;
 			return (state = [...state, course]);
 		});
 		builder.addCase(updCourse.fulfilled, (state, { payload }) => {
-			const newCourse = payload.data.result;
+			const newCourse = payload?.data.result;
 			return (state = [
 				...state.filter((course) => course.id !== newCourse.id),
 				newCourse,

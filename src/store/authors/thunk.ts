@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 import useCoursesService from 'services';
 
 export const setAuthors = createAsyncThunk(
@@ -8,9 +9,10 @@ export const setAuthors = createAsyncThunk(
 		try {
 			const { data } = await fetchAllAuthors();
 			return data;
-			// @ts-ignore
-		} catch (error: AxiosError) {
-			return thunkAPI.rejectWithValue(error.response.data.errors);
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				return thunkAPI.rejectWithValue(error.response?.data.errors);
+			}
 		}
 	}
 );
@@ -21,9 +23,10 @@ export const addAuthor = createAsyncThunk(
 		const { createAuthor } = useCoursesService();
 		try {
 			return await createAuthor(author);
-			// @ts-ignore
-		} catch (error: AxiosError) {
-			return thunkAPI.rejectWithValue(error.response.data.errors);
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				return thunkAPI.rejectWithValue(error.response?.data.errors);
+			}
 		}
 	}
 );

@@ -57,7 +57,8 @@ const App: FC = () => {
 		<div className={'app'}>
 			<Header user={user} onLogout={onLogout} />
 			<main className={'main'}>
-				{user.isAuth ? <Router user={user} /> : <div>Loading</div>}
+				<Router user={user} />
+				{/* {user.role ? <Router user={user} /> : <div>Loading</div>} */}
 			</main>
 		</div>
 	);
