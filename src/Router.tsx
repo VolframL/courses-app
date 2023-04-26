@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import Courses from 'components/Courses';
 import CourseInfo from 'components/CourseInfo';
@@ -15,33 +15,35 @@ const Router: FC<{ user: UserState }> = ({ user }) => {
 	const { isAuth, role, token } = user;
 
 	return (
-		<Routes>
-			<Route path='/' element={<Courses role={role} token={token} />} />
-			<Route path='/login' element={<Login />} />
-			<Route path='/registration' element={<Registration />} />
-			<Route
-				path='/courses'
-				element={isAuth ? <Courses role={role} token={token} /> : <Login />}
-			/>
-			<Route path='/courses/:courseId' element={<CourseInfo />} />
-			<Route
-				path='/courses/add'
-				element={
-					<PrivateRouter role={role}>
-						<CourseForm />
-					</PrivateRouter>
-				}
-			/>
-			<Route
-				path='/courses/update/:courseId'
-				element={
-					<PrivateRouter role={role}>
-						<CourseForm />
-					</PrivateRouter>
-				}
-			/>
-			<Route path='*' element={<Page404 />} />
-		</Routes>
+		<BrowserRouter>
+			<Routes>
+				<Route path='/' element={<Courses role={role} token={token} />} />
+				<Route path='/login' element={<Login />} />
+				<Route path='/registration' element={<Registration />} />
+				<Route
+					path='/courses'
+					element={isAuth ? <Courses role={role} token={token} /> : <Login />}
+				/>
+				<Route path='/courses/:courseId' element={<CourseInfo />} />
+				<Route
+					path='/courses/add'
+					element={
+						<PrivateRouter role={role}>
+							<CourseForm />
+						</PrivateRouter>
+					}
+				/>
+				<Route
+					path='/courses/update/:courseId'
+					element={
+						<PrivateRouter role={role}>
+							<CourseForm />
+						</PrivateRouter>
+					}
+				/>
+				<Route path='*' element={<Page404 />} />
+			</Routes>
+		</BrowserRouter>
 	);
 };
 
