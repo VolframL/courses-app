@@ -50,35 +50,37 @@ const Courses: FC<CoursesProps> = memo(({ role, token }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [searchText]);
 
-	if (!authorList.length || !coursesList.length) {
+	if (authorList.length && coursesList.length === 0) {
+		return <div className={styles.wrapper}>The list of courses is empty</div>;
+	} else if (!authorList.length || !coursesList.length) {
 		return <div className={styles.wrapper}>Loading</div>;
-	}
-
-	return (
-		<div className={styles.wrapper}>
-			<div className={styles.top}>
-				<SearchBar
-					onSearch={onSearch}
-					setSearchText={setSearchText}
-					searchText={searchText}
-				/>
-				{role === 'admin' && (
-					<Button onClick={() => navigate(url.courseAdd)}>
-						Add new course
-					</Button>
-				)}
+	} else {
+		return (
+			<div className={styles.wrapper}>
+				<div className={styles.top}>
+					<SearchBar
+						onSearch={onSearch}
+						setSearchText={setSearchText}
+						searchText={searchText}
+					/>
+					{role === 'admin' && (
+						<Button onClick={() => navigate(url.courseAdd)}>
+							Add new course
+						</Button>
+					)}
+				</div>
+				{filteredCourses.map((course) => (
+					<CourseCard
+						role={role}
+						token={token}
+						key={course.id}
+						course={course}
+						authorList={authorList}
+						courseQuantity={coursesList.length}
+					/>
+				))}
 			</div>
-			{filteredCourses.map((course) => (
-				<CourseCard
-					role={role}
-					token={token}
-					key={course.id}
-					course={course}
-					authorList={authorList}
-					courseQuantity={coursesList.length}
-				/>
-			))}
-		</div>
-	);
+		);
+	}
 });
 export default Courses;

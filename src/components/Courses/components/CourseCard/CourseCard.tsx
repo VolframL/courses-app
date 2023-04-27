@@ -19,13 +19,12 @@ const CourseCard: FC<CourseCardProps> = memo(
 		course: { id, title, description, creationDate, duration, authors },
 		authorList,
 		role,
-		courseQuantity,
 	}) => {
 		const navigate = useNavigate();
 		const dispatch = useAppDispatch();
 
 		return (
-			<div key={id} className={styles.wrapper}>
+			<div key={id} className={styles.wrapper + ' course-card-wrapper'}>
 				<div className={styles.descr}>
 					<h2>{title}</h2>
 					<p>{description}</p>
@@ -54,13 +53,7 @@ const CourseCard: FC<CourseCardProps> = memo(
 								<Button onClick={() => navigate(`${url.courseEdit}/${id}`)}>
 									<EditIcon />
 								</Button>
-								<Button
-									onClick={() =>
-										courseQuantity > 1
-											? dispatch(deleteCourse(id))
-											: alert('The backend is now broken')
-									}
-								>
+								<Button onClick={() => dispatch(deleteCourse(id))}>
 									<DeleteIcon />
 								</Button>
 							</>
