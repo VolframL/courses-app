@@ -31,15 +31,14 @@ describe('Course Card test', () => {
 
 	test('Title is displayed', async () => {
 		const { getByText } = await render(component);
-
-		const title = getByText('title-of-course');
+		const title = getByText('title24677dddd');
 		expect(title).toBeInTheDocument();
 	});
 
 	test('Description is displayed', async () => {
 		const { getByText } = await render(component);
 
-		const description = getByText('description-of-course');
+		const description = getByText('description221dddd');
 		expect(description).toBeInTheDocument();
 	});
 
