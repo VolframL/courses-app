@@ -22,7 +22,7 @@ describe('Courses test', () => {
 		);
 
 		const { container } = render(component);
-		const courses = container.querySelectorAll('.course-card-wrappe');
+		const courses = container.querySelectorAll('.course-card-wrapper');
 
 		expect(courses.length).toEqual(coursesList.length);
 	});
